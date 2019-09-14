@@ -1,1 +1,12 @@
-/mov_test.mov
+/python/posenet-python/_models
+/python/posenet-python/--image_dir
+/python/posenet-python/images
+/python/posenet-python/output
+/python/posenet-python/posenet
+/python/posenet-python/training_videos
+/python/posenet-python/venv/.gitignore
+/python/posenet-python/venv/LICENSE.txt
+/python/posenet-python/venv/NOTICE.txt
+/python/posenet-python/venv/benchmark.py
+/python/posenet-python/venv/README.md
+/python/posenet-python/venv/webcam_demo.py
