@@ -15,20 +15,24 @@ class _HomePageState extends State<HomePage> {
       mainAxisAlignment: MainAxisAlignment.center,
       mainAxisSize: MainAxisSize.max,
       children: <Widget>[
-        Row(
-          mainAxisSize: MainAxisSize.max,
-          children: <Widget>[
-            Expanded(
-              child: Container(
-                color: Colors.blue,
-                child: Text("Kyrel Rocks"),
-              ),
+        Expanded(
+          child: Container(
+            color: Colors.blue,
+            width: double.infinity,
+          ),
+        ),
+        Expanded(
+          child: Container(
+            width: double.infinity,
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [Colors.blue, Colors.red]),
             ),
-            Expanded(
-              child: Container(color: Colors.blue),
-            )
-          ],
-        )
+          ),
+          flex: 2,
+        ),
       ],
     ) // This trailing comma makes auto-formatting nicer for build methods.
         );

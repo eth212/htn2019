@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'routes/home.dart';
+import 'routes/workout_selection.dart';
+
 void main() => runApp(SquatApp());
 
 class SquatApp extends StatelessWidget {
@@ -8,7 +10,7 @@ class SquatApp extends StatelessWidget {
     return MaterialApp(
       title: 'Squat',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.lightBlue,
       ),
       home: HomePage(title: 'Flutter Demo Home Page'),
     );
