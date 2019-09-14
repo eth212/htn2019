@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:squat/main.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class WorkoutSelectionPage extends StatefulWidget {
   WorkoutSelectionPage({
@@ -24,7 +25,6 @@ class _WorkoutSelectionPageState extends State < WorkoutSelectionPage > {
         )),
       body: Center(
         child: Column(
-
           // mainAxisAlignment: MainAxisAlignment.center,
           children: < Widget > [
             Row(
@@ -34,7 +34,13 @@ class _WorkoutSelectionPageState extends State < WorkoutSelectionPage > {
                 ),
                 Expanded(
                    child: Container(color: Colors.blue),
-                )
+                ),
+                //DELETE THIS BUTTON (for testing)
+                 RaisedButton(onPressed: (){
+                    FirebaseAuth.instance.signOut().then((value){
+                      Navigator.of(context).pop();
+            });
+          },),
               ],
             )
           ],
