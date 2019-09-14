@@ -22,7 +22,13 @@ class _HomePageState extends State<HomePage> {
           child: Column(
             children: <Widget>[
               Expanded(
-                child: Container(color: Colors.blue),
+                child: Container(
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage('assets/splash.png'),
+                    ),
+                  ),
+                ),
               ),
               Spacer(flex: 2),
             ],
