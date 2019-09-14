@@ -16,4 +16,4 @@ class SquatApp extends StatelessWidget {
     );
   }
 }
-final squatPrimary = const Color(0xffb74093);
+final squatPrimary = const Color(0xff6A8ADB);
