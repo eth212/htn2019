@@ -14,7 +14,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument('--model', type=int, default=101)
 parser.add_argument('--scale_factor', type=float, default=1.0)
 parser.add_argument('--notxt', action='store_true')
-parser.add_argument('--image_dir', type=str, default='./images')
+parser.add_argument('--image_dir', type=str, default='./training_videos')
 parser.add_argument('--output_dir', type=str, default='./output')
 args = parser.parse_known_args()[0]
 
