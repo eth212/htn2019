@@ -8,11 +8,14 @@ class ResultsPage extends StatefulWidget {
 }
 
 class ResultsPageState extends State<ResultsPage> {
+  static const PrimaryColor = const Color(0xff6A8ADB);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar( 
-        title: const Text('Basic AppBar'),
+        centerTitle: true,
+        title: new Text('JUMPY',style: TextStyle(color:Colors.white,fontWeight: FontWeight.w300, fontSize: 30)),
+        backgroundColor: PrimaryColor,
         ),
       body: Container(
           width: double.infinity,
