@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'routes/home.dart';
+import 'routes/results.dart';
 
 void main() => runApp(SquatApp());
 
@@ -11,7 +12,7 @@ class SquatApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.lightBlue,
       ),
-      home: HomePage(title: 'Flutter Demo Home Page'),
+      home: ResultsPage(title: 'Flutter Demo Home Page'),
     );
   }
 }

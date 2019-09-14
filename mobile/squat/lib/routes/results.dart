@@ -11,6 +11,9 @@ class ResultsPageState extends State<ResultsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar( 
+        title: const Text('Basic AppBar'),
+        ),
       body: Container(
           width: double.infinity,
           decoration: BoxDecoration(

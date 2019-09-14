@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "493095808871",
+    "firebase_url": "https://excersehtn.firebaseio.com",
+    "project_id": "excersehtn",
+    "storage_bucket": "excersehtn.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:493095808871:android:38740251d61221d2f0c9c2",
+        "android_client_info": {
+          "package_name": "com.example.squat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "493095808871-p2jao7dml3clgns1m7ds7okhucg7ape7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBL24iMqSQDWnQA4c9LCa068dbofatMqy4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "493095808871-p2jao7dml3clgns1m7ds7okhucg7ape7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
