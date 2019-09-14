@@ -11,24 +11,26 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text(widget.title),
-        ),
         body: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisSize: MainAxisSize.max,
+      children: <Widget>[
+        Row(
+          mainAxisSize: MainAxisSize.max,
           children: <Widget>[
-            Row(
-              children: <Widget>[
-                Expanded(
-                  child: Container(color: Colors.blue, child: Text("Kyrel Rocks")),
-                ),
-                Expanded(
-                  child: Container(color: Colors.blue),
-                )
-              ],
+            Expanded(
+              child: Container(
+                color: Colors.blue,
+                child: Text("Kyrel Rocks"),
+              ),
+            ),
+            Expanded(
+              child: Container(color: Colors.blue),
             )
           ],
-        ) // This trailing comma makes auto-formatting nicer for build methods.
+        )
+      ],
+    ) // This trailing comma makes auto-formatting nicer for build methods.
         );
   }
 }
