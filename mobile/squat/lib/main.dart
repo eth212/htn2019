@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'routes/home.dart';
-void main() => runApp(MyApp());
+void main() => runApp(SquatApp());
 
-class MyApp extends StatelessWidget {
+class SquatApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

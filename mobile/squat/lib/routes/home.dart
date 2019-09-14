@@ -14,22 +14,20 @@ class _HomePageState extends State<HomePage> {
         appBar: AppBar(
           title: Text(widget.title),
         ),
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Row(
-                children: <Widget>[
-                  Expanded(
-                    child: Container(color: Colors.blue),
-                  ),
-                  Expanded(
-                    child: Container(color: Colors.blue),
-                  )
-                ],
-              )
-            ],
-          ),
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Row(
+              children: <Widget>[
+                Expanded(
+                  child: Container(color: Colors.blue, child: Text("Kyrel Rocks")),
+                ),
+                Expanded(
+                  child: Container(color: Colors.blue),
+                )
+              ],
+            )
+          ],
         ) // This trailing comma makes auto-formatting nicer for build methods.
         );
   }
