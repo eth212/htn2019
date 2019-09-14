@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:squat/routes/workout_selection.dart';
+import 'package:squat/routes/workout_analyze.dart';
 import 'routes/home.dart';
 import 'routes/results.dart';
 
@@ -13,7 +14,7 @@ class SquatApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.lightBlue,
       ),
-      home: WorkoutSelectionPage(title: 'JUMPY'),
+      home: WorkoutAnalyzePage(title: 'JUMPY'),
     );
   }
   final squatPrimary = const Color(0xff6A8ADB);

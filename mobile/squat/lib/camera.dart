@@ -1,43 +1,37 @@
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
-import 'package:tflite/tflite.dart';
 import 'dart:math' as math;
 
-typedef void Callback(List<dynamic> list, int h, int w);
+typedef void ImageCallback(CameraImage img);
 const POSENET = 0;
 
-
 class Camera extends StatefulWidget {
-  final Callback setRecognitions;
+  final ImageCallback addImage;
   final int model;
+  final bool isDetecting;
 
-  Camera(this.model, this.setRecognitions);
+  final List<CameraDescription> cameras;
+
+  Camera(this.cameras, this.model, this.addImage, this.isDetecting);
 
   @override
   _CameraState createState() => new _CameraState();
 }
+
 class _CameraState extends State<Camera> {
   CameraController controller;
-  bool isDetecting = false;
-  List<CameraDescription> cameras;
-
-  Future<Null> main() async {
-    try {
-      cameras = await availableCameras();
-    } on CameraException catch (e) {
-      print('Error: $e.code\nError Message: $e.message');
-    }
-  }
+  List<CameraImage> processedImages;
+  
 
   @override
   void initState() {
     super.initState();
 
-    if (cameras == null || cameras.length < 1) {
-      print('No camera is found');
+    if (widget.cameras == null || widget.cameras.length < 1) {
+      print('No camera is found, this is an error.');
     } else {
       controller = new CameraController(
-        cameras[0],
+        widget.cameras[0],
         ResolutionPreset.medium,
       );
       controller.initialize().then((_) {
@@ -47,28 +41,9 @@ class _CameraState extends State<Camera> {
         setState(() {});
 
         controller.startImageStream((CameraImage img) {
-          if (!isDetecting) {
-            isDetecting = true;
-            int startTime = new DateTime.now().millisecondsSinceEpoch;
-
-            if (widget.model == POSENET) {
-              Tflite.runPoseNetOnFrame(
-                bytesList: img.planes.map((plane) {
-                  return plane.bytes;
-                }).toList(),
-                imageHeight: img.height,
-                imageWidth: img.width,
-                numResults: 2,
-              ).then((recognitions) {
-                int endTime = new DateTime.now().millisecondsSinceEpoch;
-                print("Detection took ${endTime - startTime}");
-
-                widget.setRecognitions(recognitions, img.height, img.width);
-
-                isDetecting = false;
-              });
-            }
-          } 
+          if (widget.isDetecting) {
+            widget.addImage(img);
+          }
         });
       });
     }
@@ -83,7 +58,7 @@ class _CameraState extends State<Camera> {
   @override
   Widget build(BuildContext context) {
     if (controller == null || !controller.value.isInitialized) {
-      return Container();
+      return Center(child: Container());
     }
 
     var tmp = MediaQuery.of(context).size;
