@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'routes/home.dart';
-import 'routes/workout_selection.dart';
 
 void main() => runApp(SquatApp());
 
@@ -16,3 +15,4 @@ class SquatApp extends StatelessWidget {
     );
   }
 }
+final squatPrimary = const Color(0xffb74093);

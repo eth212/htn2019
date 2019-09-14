@@ -11,30 +11,22 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      mainAxisSize: MainAxisSize.max,
-      children: <Widget>[
-        Expanded(
-          child: Container(
-            color: Colors.blue,
-            width: double.infinity,
+      body: Container(
+          width: double.infinity,
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [Colors.white60, const Color(0xff6A8ADB)]),
           ),
-        ),
-        Expanded(
-          child: Container(
-            width: double.infinity,
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [Colors.blue, Colors.red]),
-            ),
-          ),
-          flex: 2,
-        ),
-      ],
-    ) // This trailing comma makes auto-formatting nicer for build methods.
-        );
+          child: Column(
+            children: <Widget>[
+              Expanded(
+                child: Container(color: Colors.blue),
+              ),
+              Spacer(flex: 2),
+            ],
+          )),
+    );
   }
 }
