@@ -86,40 +86,17 @@ class WorkoutListState extends State<WorkoutList> {
 }
 Widget _buildRow(pair) {
   return new Center(
-    child: Card(
-       semanticContainer: true,
-          clipBehavior: Clip.antiAliasWithSaveLayer,
-
-          shape: BeveledRectangleBorder(borderRadius: BorderRadius.zero),
-          elevation: 40,
-          margin: EdgeInsets.all(10),child:
+    child: Card(child:
     AspectRatio(aspectRatio: 1.0,
-    
       child: Column(
         mainAxisSize: MainAxisSize.max,
         
         children: <Widget>[
           const ListTile(
             
-            leading:Expanded(child: DecoratedBox(
-       decoration: BoxDecoration(
-          image: DecorationImage( 
-            image: AssetImage('assets/splash.png'),
-          ),
-        ),),),
             title: Text('The Enchanted Nightingale'),
             // subtitle: Text('Music by Julie Gable. Lyrics by Sidney Stein.'),
           ),
-          // ButtonTheme.bar( // make buttons use the appropriate styles for cards
-          //   child: ButtonBar(
-          //     children: <Widget>[
-          //       // FlatButton(
-          //       //   child: const Text('BUY TICKETS'),
-          //       //   onPressed: () { /* ... */ },
-          //       // ),
-          //     ],
-          //   ),
-          // ),
         ],
       ),
     )
