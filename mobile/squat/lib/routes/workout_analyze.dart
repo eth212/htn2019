@@ -1,67 +1,96 @@
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
-import 'package:path_provider/path_provider.dart';
-import 'dart:async';
-import 'dart:io';
+import 'package:tflite/tflite.dart';
+import 'dart:math' as math;
 
-class WorkoutAnalyzePage extends StatefulWidget {
-  WorkoutAnalyzePage({Key key, this.title}) : super(key: key);
-  final String title;
+typedef void Callback(List<dynamic> list, int h, int w);
+
+class Camera extends StatefulWidget {
+  final List<CameraDescription> cameras;
+  final Callback setRecognitions;
+  final int model;
+
+  Camera(this.cameras, this.model, this.setRecognitions);
+
   @override
-  _WorkoutAnalyzePageState createState() => _WorkoutAnalyzePageState();
+  _CameraState createState() => new _CameraState();
 }
 
-class _WorkoutAnalyzePageState extends State<WorkoutAnalyzePage> {
-  List<CameraDescription> cameras;
-  int selectedCameraIdx;
-  dynamic controller;
+class _CameraState extends State<Camera> {
+  CameraController controller;
+  bool isDetecting = false;
+  const POSENET == 0;
+  @override
   void initState() {
     super.initState();
+    
+    if (widget.cameras == null || widget.cameras.length < 1) {
+      print('No camera is found');
+    } else {
+      controller = new CameraController(
+        widget.cameras[0],
+        ResolutionPreset.medium,
+      );
+      controller.initialize().then((_) {
+        if (!mounted) {
+          return;
+        }
+        setState(() {});
 
-    // Get the list of available cameras.
-    // Then set the first camera as selected.
-    availableCameras().then((availableCameras) {
-      cameras = availableCameras;
+        controller.startImageStream((CameraImage img) {
+          if (!isDetecting) {
+            isDetecting = true;
+            int startTime = new DateTime.now().millisecondsSinceEpoch;
 
-      if (cameras.length > 0) {
-        setState(() {
-          selectedCameraIdx = 0;
+            if (widget.model == POSENET) {
+              Tflite.runPoseNetOnFrame(
+                bytesList: img.planes.map((plane) {
+                  return plane.bytes;
+                }).toList(),
+                imageHeight: img.height,
+                imageWidth: img.width,
+                numResults: 2,
+              ).then((recognitions) {
+                int endTime = new DateTime.now().millisecondsSinceEpoch;
+                print("Detection took ${endTime - startTime}");
+
+                widget.setRecognitions(recognitions, img.height, img.width);
+
+                isDetecting = false;
+              });
+            } 
+          }
         });
-      }
-    }).catchError((err) {
-      print('Error: $err.code\nError Message: $err.message');
-    });
+      });
+    }
   }
 
-  Future<String> _getDirectory() async {
-    Directory appDirectory = await getApplicationDocumentsDirectory();
-    String videoDirectory = '${appDirectory.path}/Videos';
-    await Directory(videoDirectory).create(recursive: true);
-    String currentTime = DateTime.now().millisecondsSinceEpoch.toString();
-    return '$videoDirectory/${currentTime}.mp4';
+  @override
+  void dispose() {
+    controller?.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(),
-    );
-  }
-
-  Widget _cameraPreviewWidget() {
     if (controller == null || !controller.value.isInitialized) {
-      return const Text(
-        'Loading',
-        style: TextStyle(
-          color: Colors.white,
-          fontSize: 20.0,
-          fontWeight: FontWeight.w900,
-        ),
-      );
+      return Container();
     }
 
-    return AspectRatio(
-      aspectRatio: controller.value.aspectRatio,
+    var tmp = MediaQuery.of(context).size;
+    var screenH = math.max(tmp.height, tmp.width);
+    var screenW = math.min(tmp.height, tmp.width);
+    tmp = controller.value.previewSize;
+    var previewH = math.max(tmp.height, tmp.width);
+    var previewW = math.min(tmp.height, tmp.width);
+    var screenRatio = screenH / screenW;
+    var previewRatio = previewH / previewW;
+
+    return OverflowBox(
+      maxHeight:
+          screenRatio > previewRatio ? screenH : screenW / previewW * previewH,
+      maxWidth:
+          screenRatio > previewRatio ? screenH / previewH * previewW : screenW,
       child: CameraPreview(controller),
     );
   }
