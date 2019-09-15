@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:squat/main.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:squat/routes/workout_record.dart';
+import 'cameracalibration.dart';
 class WorkoutSelectionPage extends StatefulWidget {
   WorkoutSelectionPage({Key key, this.title}) : super(key: key);
   final String title;
@@ -63,7 +64,7 @@ class _WorkoutSelectionPageState extends State<WorkoutSelectionPage> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => WorkoutRecordPage(),
+        builder: (context) => CameraCalibration(),
       ),
     );
   }
