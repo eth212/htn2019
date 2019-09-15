@@ -43,13 +43,9 @@ class _WorkoutSelectionPageState extends State<WorkoutSelectionPage> {
               IconButton(
                 icon: Icon(Icons.arrow_back),
                 onPressed: () {
-<<<<<<< HEAD
                   FirebaseAuth.instance.signOut().then((value){
                     Navigator.of(context).pop();
                   });
-=======
-                  Navigator.pop(context);
->>>>>>> d75415349e66414db85533437fba0d4c24d4ec50
                 },
               ),
               Expanded(
