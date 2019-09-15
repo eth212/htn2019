@@ -115,7 +115,7 @@ class ResultsListState extends State<ResultsList> {
                     color: Colors.white,
                     letterSpacing: 0.15,
                     fontWeight: FontWeight.normal,
-                    height: 1.2,
+                    height: 1,
                     fontSize: 28))),
         Align(
           child: AspectRatio(aspectRatio: 1.1, child: buildList()),
@@ -125,7 +125,11 @@ class ResultsListState extends State<ResultsList> {
             'Great job!\nDo better next time.',
             textAlign: TextAlign.center,
             style: TextStyle(
-                color: Colors.white,  fontSize: 24,fontFamily: "RobotoCondensed"),
+                color: Colors.white,
+                fontWeight: FontWeight.w300,
+                fontSize: 24,
+                height:1.5,
+                fontFamily: "RobotoCondensed"),
           ),
         ),
       ],
@@ -170,7 +174,15 @@ class ResultsListState extends State<ResultsList> {
             SizedBox(
               child: Padding(
                   padding: EdgeInsets.fromLTRB(20, 0, 5, 0),
-                  child: Text(headerText[index])),
+                  child: Text(
+                    headerText[index],
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.w300,
+                        fontSize: 20,
+                        fontFamily: "RobotoCondensed"),
+                  )),
               width: 100,
             ),
             SizedBox(
