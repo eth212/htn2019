@@ -21,20 +21,3 @@ class SquatApp extends StatelessWidget {
   final squatPrimary = const Color(0xff6A8ADB);
 
 }
-
-Widget _handleWindowDisplay(){
-  return WorkoutSelectionPage();
-  return StreamBuilder(
-    stream: FirebaseAuth.instance.onAuthStateChanged,
-    builder: (BuildContext context, snapshot){
-      if(snapshot.connectionState == ConnectionState.waiting){
-        return Center(child: Text("Loading"));
-      } else {
-        if(snapshot.hasData){
-          return WorkoutSelectionPage();
-        } else{
-          return Login();
-          } 
-        }
-  },);
-}

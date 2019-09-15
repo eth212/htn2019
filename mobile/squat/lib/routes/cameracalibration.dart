@@ -9,8 +9,6 @@ class CameraCalibration extends StatefulWidget {
 }
 
 class CameraCalibrationState extends State<CameraCalibration> {
-  String _email, _password;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -172,7 +170,8 @@ class CalibrationDecisionState extends State<CalibrationDecision> {
                                 fontSize: 14.0,
                                 color: Colors.white,
                                 fontWeight: FontWeight.w400)),
-                        onPressed: () {                         Navigator.push(
+                        onPressed: () {
+                          Navigator.push(
                             context,
                             MaterialPageRoute(
                               builder: (context) => WorkoutRecordPage(
@@ -180,7 +179,8 @@ class CalibrationDecisionState extends State<CalibrationDecision> {
                                 side: false,
                               ),
                             ),
-                          );},
+                          );
+                        },
                       ),
                     ],
                   ),
