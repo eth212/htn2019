@@ -14,7 +14,7 @@ class ResultsPage extends StatefulWidget {
       this.title,
       this.shoulder_hip_value,
       this.hip_knee_value,
-      this.knee_ankle_value})
+      this.knee_ankle_value}) 
       : super(key: key);
   final String title;
   final dynamic shoulder_hip_value;
