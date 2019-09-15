@@ -7,6 +7,7 @@ import 'package:flutter_isolate/flutter_isolate.dart';
 import 'dart:isolate';
 import 'dart:math';
 import 'package:squat/routes/results.dart';
+
 class WorkoutAnalyzePage extends StatefulWidget {
   WorkoutAnalyzePage({Key key, this.title, this.images, this.side})
       : super(key: key);
@@ -46,9 +47,9 @@ class _WorkoutAnalyzePageState extends State<WorkoutAnalyzePage> {
     setState(() {
       MaterialPageRoute(
         builder: (context) => ResultsPage(
-          shoulder_hip_value = shoulder_hip_value,
-          hip_knee_value = hip_knee_value,
-          knee_ankle_value = knee_ankle_value,
+          shoulder_hip_value: shoulder_hip_value,
+          hip_knee_value: hip_knee_value,
+          knee_ankle_value: knee_ankle_value,
           title: widget.title,
         ),
       );
