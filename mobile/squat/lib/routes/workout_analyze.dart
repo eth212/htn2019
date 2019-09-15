@@ -17,10 +17,8 @@ class WorkoutAnalyzePage extends StatefulWidget {
 
 class _WorkoutAnalyzePageState extends State<WorkoutAnalyzePage> {
   List<dynamic> _recognitions;
-  List<dynamic> _calculations;
   bool isRecognizing = false;
   String initialOutput = "Output not computed.";
-  String identifier;
   bool side;
   List calculations;
 
@@ -33,11 +31,16 @@ class _WorkoutAnalyzePageState extends State<WorkoutAnalyzePage> {
   initState() {
     super.initState();
     _recognitions = List();
-    _calculations = List();
     isRecognizing = false;
     processModelA(widget.images);
-    for (dynamic pose in _recognitions) {
-      modelB(pose);
+    min_theta_1 = 90;
+    min_theta_2 = 90;
+    min_theta_3 = 90;
+      modelB();
+      
+
+
+
     }
   }
 
@@ -63,8 +66,8 @@ class _WorkoutAnalyzePageState extends State<WorkoutAnalyzePage> {
     print("Processed the stream!");
   }
 
-  void modelB(pose) {
-    calculations = List();
+  void modelB() {
+    for (dynamic pose in _recognitions) {
     double rightKnee_y,
         leftKnee_y,
         rightKnee_x,
@@ -81,10 +84,7 @@ class _WorkoutAnalyzePageState extends State<WorkoutAnalyzePage> {
         rightHip_y,
         leftHip_x,
         leftHip_y;
-    double rightEar_x,
-        rightEar_y,
-        leftEar_x,
-        leftEar_y,
+    double 
         theta_1,
         theta_2,
         theta_3;
@@ -92,8 +92,6 @@ class _WorkoutAnalyzePageState extends State<WorkoutAnalyzePage> {
         knee_y,
         hip_x,
         hip_y,
-        ear_x,
-        ear_y,
         shoulder_x,
         shoulder_y,
         ankle_x,
@@ -104,58 +102,49 @@ class _WorkoutAnalyzePageState extends State<WorkoutAnalyzePage> {
       if (element['score'] < 0.4) {
         break;
       }
-      if (part == "leftEye") {
-        leftEar_x = element['x'];
-        leftEar_y = element['y'];
-      } else if (identifier == "rightEye") {
-        rightEar_x = element['x'];
-        rightEar_y = element['y'];
-      }
-      if (identifier == "leftHip") {
+      
+      if (part == "leftHip") {
         leftHip_x = element['x'];
         leftHip_y = element['y'];
       }
-      if (identifier == "rightHip") {
+      if (part == "rightHip") {
         rightHip_x = element['x'];
         rightHip_y = element['y'];
       }
-      if (identifier == "leftKnee") {
+      if (part == "leftKnee") {
         leftKnee_x = element['x'];
         leftKnee_y = element['y'];
       }
-      if (identifier == "rightKnee") {
+      if (part == "rightKnee") {
         rightKnee_x = element['x'];
         rightKnee_y = element['y'];
       }
-      if (identifier == "leftShoulder") {
+      if (part == "leftShoulder") {
         leftShoulder_x = element['x'];
         leftShoulder_y = element['y'];
       }
-      if (identifier == "rightShoulder") {
+      if (part == "rightShoulder") {
         rightShoulder_x = element['x'];
         rightShoulder_y = element['y'];
       }
-      if (identifier == "leftAnkle") {
+      if (part == "leftAnkle") {
         leftAnkle_x = element['x'];
         leftAnkle_y = element['y'];
       }
-      if (identifier == "rightAnkle") {
+      if (part == "rightAnkle") {
         rightAnkle_x = element['x'];
         rightAnkle_y = element['y'];
       }
     }
-    if (leftEar_x == null ||
-        leftHip_x == null ||
+    if (leftHip_x == null ||
         leftKnee_x == null ||
         leftShoulder_x == null ||
         leftAnkle_x == null ||
-        rightEar_x == null ||
         rightHip_x == null ||
         rightKnee_x == null ||
         rightShoulder_x == null ||
         rightAnkle_x == null) {
-      _calculations.add(null);
-      return;
+      break;
     }
     knee_y = (leftKnee_y + rightKnee_y) / 2;
     knee_x = (leftKnee_x + rightKnee_x) / 2;
@@ -173,8 +162,6 @@ class _WorkoutAnalyzePageState extends State<WorkoutAnalyzePage> {
       //left side
       shoulder_x = leftShoulder_x;
       shoulder_y = leftShoulder_y;
-      ear_x = leftEar_x;
-      ear_y = leftEar_y;
       hip_x = rightHip_x;
       hip_y = rightHip_y;
       theta_1 = atan((hip_x - shoulder_x) / (hip_y - shoulder_y));
@@ -186,8 +173,6 @@ class _WorkoutAnalyzePageState extends State<WorkoutAnalyzePage> {
       //right side
       shoulder_x = rightShoulder_x;
       shoulder_y = rightShoulder_y;
-      ear_x = rightEar_x;
-      ear_y = rightEar_y;
       hip_x = leftHip_x;
       hip_y = leftHip_y;
       theta_1 = atan((shoulder_x - hip_x) / (hip_y - shoulder_y));
@@ -197,10 +182,16 @@ class _WorkoutAnalyzePageState extends State<WorkoutAnalyzePage> {
 
 // if confidence score is low at a point, calculate potential_error which should take in the last 3 points
 // when iterating through different frames, calculate potantial_error at each point
-
-    dynamic shoulder_hip_value = tanh((70 - theta_1) / 8.13);
-    dynamic hip_knee_value = tanh((12.9 - theta_2) / 9.5);
-    dynamic knee_ankle_value = tanh((62 - theta_3) / 6.8);
+    if(theta_1 < min_theta_1){
+        min_theta_1 = theta_1 
+      }
+      if(theta_2 < min_theta_2){
+        min_theta_2 = theta_12 
+      }
+      if(theta_3 < min_theta_3){
+        min_theta_3 = theta_3 
+      }
+    }
   }
 
   @override
