@@ -23,7 +23,32 @@ class _WorkoutSelectionPageState extends State<WorkoutSelectionPage> {
                         fontWeight: FontWeight.w300,
                         fontSize: 45)),
                 backgroundColor: SquatApp().squatPrimary)),
-        body: WorkoutList());
+        floatingActionButton: FloatingActionButton.extended(
+          elevation: 0,
+          // icon: const Icon(Icons.add),
+          label: const Text('Workout',style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.w500,
+                        fontSize: 15)),
+          onPressed: () {},
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+        body: WorkoutList(),
+        bottomNavigationBar: BottomAppBar(
+          child: new Row(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              IconButton(
+                icon: Icon(Icons.arrow_back),
+                onPressed: () {},
+              ),
+              Expanded(
+                child: Text(''),
+              )
+            ],
+          ),
+        color:SquatApp().squatPrimary));
   }
 }
 
@@ -36,7 +61,9 @@ class WorkoutList extends StatefulWidget {
 
 class WorkoutListState extends State<WorkoutList> {
   static var size = Size(0, 0);
-  final someStuff = ['Hi', 'Nah', 'You'];
+  final imageLinks = ['Hi', 'Nah', 'You'];
+  final headerText = ['Squats','Pullups'];
+  final contentText = ['Time for your glutes.','You think you got form?'];
 
   /*24 is for notification bar on Android*/
   static double itemHeight = (size.height - kToolbarHeight - 24) / 2;
@@ -69,7 +96,7 @@ class WorkoutListState extends State<WorkoutList> {
     return new Padding(
       padding: EdgeInsets.all(10),
       child: GridView.count(
-        crossAxisCount: 2, childAspectRatio: 7 / 8,
+        crossAxisCount: 2, childAspectRatio: 6.5 / 8,
 
         // Generate 100 widgets that display their index in the List.
         children: List.generate(
@@ -83,7 +110,7 @@ class WorkoutListState extends State<WorkoutList> {
             //   // ...then generate 10 more and add them to the suggestions list.
             //   _suggestions.addAll(generateWordPairs().take(10));
             // }
-            return _buildRow(someStuff[index]);
+            return _buildRow(imageLinks[index]);
           },
         ),
       ),
@@ -102,20 +129,27 @@ class WorkoutListState extends State<WorkoutList> {
           ),
           Row(children: [
             Padding(
-              padding:
-                  EdgeInsets.only(left: 20, top: 10, right: 10, bottom: 10),
+              padding: EdgeInsets.only(left: 20, top: 10, right: 10, bottom: 5),
               child: Text('SQUATS',
                   textAlign: TextAlign.start,
                   style: TextStyle(
                       fontWeight: FontWeight.w500, fontSize: 20, height: 1.1)),
-            )
+            ),
+          ]),
+          Row(children: [
+            Padding(
+              padding: EdgeInsets.only(left: 20, top: 5, right: 10, bottom: 10),
+              child: Text('Time for your glutes.',
+                  textAlign: TextAlign.start,
+                  style: TextStyle(fontSize: 14, height: 1.1)),
+            ),
           ])
         ]),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.zero,
         ),
         // elevation: 5,
-        margin: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+        margin: const EdgeInsets.only(left: 8, right: 8, bottom: 20, top: 4),
       ),
     );
   }
