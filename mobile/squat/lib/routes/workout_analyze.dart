@@ -6,9 +6,10 @@ import 'dart:async';
 import 'package:flutter_isolate/flutter_isolate.dart';
 import 'dart:isolate';
 import 'dart:math';
-
+import 'package:squat/routes/results.dart';
 class WorkoutAnalyzePage extends StatefulWidget {
-  WorkoutAnalyzePage({Key key, this.title, this.images, this.side}) : super(key: key);
+  WorkoutAnalyzePage({Key key, this.title, this.images, this.side})
+      : super(key: key);
   final String title;
   final List<CameraImage> images;
   final bool side;
@@ -39,6 +40,19 @@ class _WorkoutAnalyzePageState extends State<WorkoutAnalyzePage> {
     min_theta_2 = 90;
     min_theta_3 = 90;
     modelB();
+    dynamic shoulder_hip_value = tanh((70 - min_theta_1) / 8.13);
+    dynamic hip_knee_value = tanh((12.9 - min_theta_2) / 9.5);
+    dynamic knee_ankle_value = tanh((62 - min_theta_3) / 6.8);
+    setState(() {
+      MaterialPageRoute(
+        builder: (context) => ResultsPage(
+          shoulder_hip_value = shoulder_hip_value,
+          hip_knee_value = hip_knee_value,
+          knee_ankle_value = knee_ankle_value,
+          title: widget.title,
+        ),
+      );
+    });
   }
 
   void processModelA(List<CameraImage> images) async {
@@ -174,8 +188,6 @@ class _WorkoutAnalyzePageState extends State<WorkoutAnalyzePage> {
         theta_3 = (90 - atan((knee_x - ankle_x) / (ankle_y - knee_y)));
       }
 
-// if confidence score is low at a point, calculate potential_error which should take in the last 3 points
-// when iterating through different frames, calculate potantial_error at each point
       if (theta_1 < min_theta_1) {
         min_theta_1 = theta_1;
       }

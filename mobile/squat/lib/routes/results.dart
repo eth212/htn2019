@@ -9,8 +9,18 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:squat/routes/workout_record.dart';
 
 class ResultsPage extends StatefulWidget {
-  ResultsPage({Key key, this.title}) : super(key: key);
+  ResultsPage(
+      {Key key,
+      this.title,
+      this.shoulder_hip_value,
+      this.hip_knee_value,
+      this.knee_ankle_value})
+      : super(key: key);
   final String title;
+  final dynamic shoulder_hip_value;
+  final dynamic hip_knee_value;
+  final dynamic knee_ankle_value;
+
   @override
   ResultsPagestate createState() => ResultsPagestate();
 }
@@ -19,52 +29,43 @@ class ResultsPagestate extends State<ResultsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Color(0xff272727),
-        appBar: PreferredSize(
-            preferredSize: Size.fromHeight(70.0),
-            child: AppBar(
-                centerTitle: true,
-                title: new Text('JUMPY',
+      backgroundColor: Color(0xff272727),
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(70.0),
+        child: AppBar(
+            centerTitle: true,
+            title: new Text('JUMPY',
+                style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w300,
+                    fontSize: 45)),
+            backgroundColor: SquatApp().squatPrimary),
+      ),
+      body: ResultsList(),
+      bottomNavigationBar: BottomAppBar(
+          child: new Row(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              IconButton(
+                icon: Icon(Icons.arrow_back),
+                onPressed: () {
+                  FirebaseAuth.instance.signOut().then((value) {
+                    Navigator.of(context).pop();
+                  });
+                },
+              ),
+              Expanded(
+                child: Text('',
                     style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.w300,
                         fontSize: 45)),
-                backgroundColor: SquatApp().squatPrimary)),
-        // floatingActionButton: FloatingActionButton.extended(
-        //   elevation: 0,
-        //   // icon: const Icon(Icons.add),
-        //   label: const Text('Workout',
-        //       style: TextStyle(
-        //           color: Colors.white,
-        //           fontWeight: FontWeight.w500,
-        //           fontSize: 15)),
-        //   onPressed: fastForward,
-        // ),
-        // floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-        body: ResultsList(),
-        bottomNavigationBar: BottomAppBar(
-            child: new Row(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                IconButton(
-                  icon: Icon(Icons.arrow_back),
-                  onPressed: () {
-                    FirebaseAuth.instance.signOut().then((value) {
-                      Navigator.of(context).pop();
-                    });
-                  },
-                ),
-                Expanded(
-                  child: Text('',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w300,
-                          fontSize: 45)),
-                )
-              ],
-            ),
-            color: SquatApp().squatPrimary));
+              )
+            ],
+          ),
+          color: SquatApp().squatPrimary),
+    );
   }
 
   fastForward() {
@@ -128,7 +129,7 @@ class ResultsListState extends State<ResultsList> {
                 color: Colors.white,
                 fontWeight: FontWeight.w300,
                 fontSize: 24,
-                height:1.5,
+                height: 1.5,
                 fontFamily: "RobotoCondensed"),
           ),
         ),
