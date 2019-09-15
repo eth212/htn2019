@@ -33,7 +33,7 @@ Widget _handleWindowDisplay(){
         if(snapshot.hasData){
           return WorkoutSelectionPage();
         } else{
-          return HomePage();
+          return Login();
           } 
         }
   },);
