@@ -41,7 +41,9 @@ class _WorkoutSelectionPageState extends State<WorkoutSelectionPage> {
             children: <Widget>[
               IconButton(
                 icon: Icon(Icons.arrow_back),
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pop(context);
+                },
               ),
               Expanded(
                 child: Text(''),
@@ -61,9 +63,9 @@ class WorkoutList extends StatefulWidget {
 
 class WorkoutListState extends State<WorkoutList> {
   static var size = Size(0, 0);
-  final imageLinks = ['Hi', 'Nah', 'You'];
-  final headerText = ['Squats','Pullups'];
-  final contentText = ['Time for your glutes.','You think you got form?'];
+  final imageLinks = ['Hi', 'Nah', 'You','Right?'];
+  final headerText = ['Squats','Pullups','Running','Wow'];
+  final contentText = ['Time for your glutes.','You think you got form?','Great','New apartment!'];
 
   /*24 is for notification bar on Android*/
   static double itemHeight = (size.height - kToolbarHeight - 24) / 2;
@@ -100,24 +102,24 @@ class WorkoutListState extends State<WorkoutList> {
 
         // Generate 100 widgets that display their index in the List.
         children: List.generate(
-          5,
+          imageLinks.length,
           (i) {
             print(i);
-            var index = i ~/ 2;
+            
             // if (i.isOdd) return Divider();
             // If you've reached at the end of the available word pairs...
             // if (index >= _suggestions.length) {
             //   // ...then generate 10 more and add them to the suggestions list.
             //   _suggestions.addAll(generateWordPairs().take(10));
             // }
-            return _buildRow(imageLinks[index]);
+            return buildCard(i);
           },
         ),
       ),
     );
   }
 
-  Widget _buildRow(pair) {
+  Widget buildCard(index) {
     return new Center(
       child: Card(
         semanticContainer: true,
@@ -129,8 +131,8 @@ class WorkoutListState extends State<WorkoutList> {
           ),
           Row(children: [
             Padding(
-              padding: EdgeInsets.only(left: 20, top: 10, right: 10, bottom: 5),
-              child: Text('SQUATS',
+              padding: EdgeInsets.only(left: 10, top: 10, right: 10, bottom: 5),
+              child: Text(headerText[index],
                   textAlign: TextAlign.start,
                   style: TextStyle(
                       fontWeight: FontWeight.w500, fontSize: 20, height: 1.1)),
@@ -138,8 +140,8 @@ class WorkoutListState extends State<WorkoutList> {
           ]),
           Row(children: [
             Padding(
-              padding: EdgeInsets.only(left: 20, top: 5, right: 10, bottom: 10),
-              child: Text('Time for your glutes.',
+              padding: EdgeInsets.only(left: 10, top: 5, right: 10, bottom: 10),
+              child: Text(contentText[index],
                   textAlign: TextAlign.start,
                   style: TextStyle(fontSize: 14, height: 1.1)),
             ),
