@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:squat/main.dart';
+import 'package:squat/routes/workout_record.dart';
 
 class CameraCalibration extends StatefulWidget {
   @override
@@ -136,7 +137,17 @@ class CalibrationDecisionState extends State<CalibrationDecision> {
                               color: Colors.white,
                               fontWeight: FontWeight.w400),
                         ),
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => WorkoutRecordPage(
+                                title: "JUMPY",
+                                side: true,
+                              ),
+                            ),
+                          );
+                        },
                       ),
                     ],
                   ),
@@ -161,7 +172,15 @@ class CalibrationDecisionState extends State<CalibrationDecision> {
                                 fontSize: 14.0,
                                 color: Colors.white,
                                 fontWeight: FontWeight.w400)),
-                        onPressed: () {},
+                        onPressed: () {                         Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => WorkoutRecordPage(
+                                title: "JUMPY",
+                                side: false,
+                              ),
+                            ),
+                          );},
                       ),
                     ],
                   ),

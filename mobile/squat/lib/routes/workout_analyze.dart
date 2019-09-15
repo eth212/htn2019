@@ -8,9 +8,10 @@ import 'dart:isolate';
 import 'dart:math';
 
 class WorkoutAnalyzePage extends StatefulWidget {
-  WorkoutAnalyzePage({Key key, this.title, this.images}) : super(key: key);
+  WorkoutAnalyzePage({Key key, this.title, this.images, this.side}) : super(key: key);
   final String title;
   final List<CameraImage> images;
+  final bool side;
   @override
   _WorkoutAnalyzePageState createState() => _WorkoutAnalyzePageState();
 }
@@ -30,18 +31,14 @@ class _WorkoutAnalyzePageState extends State<WorkoutAnalyzePage> {
   @override
   initState() {
     super.initState();
+    side = widget.side;
     _recognitions = List();
     isRecognizing = false;
     processModelA(widget.images);
     min_theta_1 = 90;
     min_theta_2 = 90;
     min_theta_3 = 90;
-      modelB();
-      
-
-
-
-    }
+    modelB();
   }
 
   void processModelA(List<CameraImage> images) async {
@@ -68,128 +65,125 @@ class _WorkoutAnalyzePageState extends State<WorkoutAnalyzePage> {
 
   void modelB() {
     for (dynamic pose in _recognitions) {
-    double rightKnee_y,
-        leftKnee_y,
-        rightKnee_x,
-        leftKnee_x,
-        rightAnkle_y,
-        rightAnkle_x,
-        leftAnkle_y,
-        leftAnkle_x;
-    double rightShoulder_x,
-        rightShoulder_y,
-        leftShoulder_x,
-        leftShoulder_y,
-        rightHip_x,
-        rightHip_y,
-        leftHip_x,
-        leftHip_y;
-    double 
-        theta_1,
-        theta_2,
-        theta_3;
-    double knee_x,
-        knee_y,
-        hip_x,
-        hip_y,
-        shoulder_x,
-        shoulder_y,
-        ankle_x,
-        ankle_y;
-    for (int i = 0; i < 14; i++) {
-      dynamic element = pose[i];
-      dynamic part = pose[i]['part'];
-      if (element['score'] < 0.4) {
+      double rightKnee_y,
+          leftKnee_y,
+          rightKnee_x,
+          leftKnee_x,
+          rightAnkle_y,
+          rightAnkle_x,
+          leftAnkle_y,
+          leftAnkle_x;
+      double rightShoulder_x,
+          rightShoulder_y,
+          leftShoulder_x,
+          leftShoulder_y,
+          rightHip_x,
+          rightHip_y,
+          leftHip_x,
+          leftHip_y;
+      double theta_1, theta_2, theta_3;
+      double knee_x,
+          knee_y,
+          hip_x,
+          hip_y,
+          shoulder_x,
+          shoulder_y,
+          ankle_x,
+          ankle_y;
+      for (int i = 0; i < 14; i++) {
+        dynamic element = pose[i];
+        dynamic part = pose[i]['part'];
+        if (element['score'] < 0.4) {
+          break;
+        }
+
+        if (part == "leftHip") {
+          leftHip_x = element['x'];
+          leftHip_y = element['y'];
+        }
+        if (part == "rightHip") {
+          rightHip_x = element['x'];
+          rightHip_y = element['y'];
+        }
+        if (part == "leftKnee") {
+          leftKnee_x = element['x'];
+          leftKnee_y = element['y'];
+        }
+        if (part == "rightKnee") {
+          rightKnee_x = element['x'];
+          rightKnee_y = element['y'];
+        }
+        if (part == "leftShoulder") {
+          leftShoulder_x = element['x'];
+          leftShoulder_y = element['y'];
+        }
+        if (part == "rightShoulder") {
+          rightShoulder_x = element['x'];
+          rightShoulder_y = element['y'];
+        }
+        if (part == "leftAnkle") {
+          leftAnkle_x = element['x'];
+          leftAnkle_y = element['y'];
+        }
+        if (part == "rightAnkle") {
+          rightAnkle_x = element['x'];
+          rightAnkle_y = element['y'];
+        }
+      }
+      if (leftHip_x == null ||
+          leftKnee_x == null ||
+          leftShoulder_x == null ||
+          leftAnkle_x == null ||
+          rightHip_x == null ||
+          rightKnee_x == null ||
+          rightShoulder_x == null ||
+          rightAnkle_x == null) {
         break;
       }
-      
-      if (part == "leftHip") {
-        leftHip_x = element['x'];
-        leftHip_y = element['y'];
-      }
-      if (part == "rightHip") {
-        rightHip_x = element['x'];
-        rightHip_y = element['y'];
-      }
-      if (part == "leftKnee") {
-        leftKnee_x = element['x'];
-        leftKnee_y = element['y'];
-      }
-      if (part == "rightKnee") {
-        rightKnee_x = element['x'];
-        rightKnee_y = element['y'];
-      }
-      if (part == "leftShoulder") {
-        leftShoulder_x = element['x'];
-        leftShoulder_y = element['y'];
-      }
-      if (part == "rightShoulder") {
-        rightShoulder_x = element['x'];
-        rightShoulder_y = element['y'];
-      }
-      if (part == "leftAnkle") {
-        leftAnkle_x = element['x'];
-        leftAnkle_y = element['y'];
-      }
-      if (part == "rightAnkle") {
-        rightAnkle_x = element['x'];
-        rightAnkle_y = element['y'];
-      }
-    }
-    if (leftHip_x == null ||
-        leftKnee_x == null ||
-        leftShoulder_x == null ||
-        leftAnkle_x == null ||
-        rightHip_x == null ||
-        rightKnee_x == null ||
-        rightShoulder_x == null ||
-        rightAnkle_x == null) {
-      break;
-    }
-    knee_y = (leftKnee_y + rightKnee_y) / 2;
-    knee_x = (leftKnee_x + rightKnee_x) / 2;
+      knee_y = (leftKnee_y + rightKnee_y) / 2;
+      knee_x = (leftKnee_x + rightKnee_x) / 2;
 
-    double comparison = rightAnkle_y;
-    if (comparison > leftAnkle_y) {
-      ankle_y = leftAnkle_y;
-      ankle_x = leftAnkle_x;
-    } else {
-      ankle_y = rightAnkle_y;
-      ankle_x = rightAnkle_x;
-    }
+      double comparison = rightAnkle_y;
+      if (comparison > leftAnkle_y) {
+        ankle_y = leftAnkle_y;
+        ankle_x = leftAnkle_x;
+      } else {
+        ankle_y = rightAnkle_y;
+        ankle_x = rightAnkle_x;
+      }
 
-    if (side == true) {
-      //left side
-      shoulder_x = leftShoulder_x;
-      shoulder_y = leftShoulder_y;
-      hip_x = rightHip_x;
-      hip_y = rightHip_y;
-      theta_1 = atan((hip_x - shoulder_x) / (hip_y - shoulder_y));
-      theta_2 = atan((knee_y - hip_y) / (hip_x - knee_y));
-      theta_3 = atan((knee_x - ankle_x) / (knee_y - ankle_y));
-    }
+      if (side == true) {
+        //left side
+        shoulder_x = leftShoulder_x;
+        shoulder_y = leftShoulder_y;
+        hip_x = rightHip_x;
+        hip_y = rightHip_y;
+        theta_1 = atan((hip_x - shoulder_x) / (hip_y - shoulder_y));
+        theta_2 = atan((knee_y - hip_y) / (hip_x - knee_y));
+        theta_3 = atan((knee_x - ankle_x) / (knee_y - ankle_y));
+      }
 
-    if (side == false) {
-      //right side
-      shoulder_x = rightShoulder_x;
-      shoulder_y = rightShoulder_y;
-      hip_x = leftHip_x;
-      hip_y = leftHip_y;
-      theta_1 = atan((shoulder_x - hip_x) / (hip_y - shoulder_y));
-      theta_2 = atan((knee_x - hip_x) / (knee_y - hip_y));
-      theta_3 = (90 - atan((knee_x - ankle_x) / (ankle_y - knee_y)));
-    }
+      if (side == false) {
+        //right side
+        shoulder_x = rightShoulder_x;
+        shoulder_y = rightShoulder_y;
+        hip_x = leftHip_x;
+        hip_y = leftHip_y;
+        theta_1 = atan((shoulder_x - hip_x) / (hip_y - shoulder_y));
+        theta_2 = atan((knee_x - hip_x) / (knee_y - hip_y));
+        theta_3 = (90 - atan((knee_x - ankle_x) / (ankle_y - knee_y)));
+      }
 
 // if confidence score is low at a point, calculate potential_error which should take in the last 3 points
 // when iterating through different frames, calculate potantial_error at each point
-    if(theta_1 < min_theta_1){
-        min_theta_1 = theta_1 
+      if (theta_1 < min_theta_1) {
+        min_theta_1 = theta_1;
       }
-      if(theta_2 < min_theta_2){
-        min_theta_2 = theta_12 
+      if (theta_2 < min_theta_2) {
+        min_theta_2 = theta_2;
       }
-      if(theta_3 < min_theta_3){
-        min_theta_3 = theta_3 
+      if (theta_3 < min_theta_3) {
+        min_theta_3 = theta_3;
       }
     }
   }

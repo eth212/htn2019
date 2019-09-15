@@ -4,8 +4,9 @@ import 'package:camera/camera.dart';
 import 'package:squat/camera.dart';
 import 'package:squat/routes/workout_analyze.dart';
 class WorkoutRecordPage extends StatefulWidget {
-  WorkoutRecordPage({Key key, this.title}) : super(key: key);
+  WorkoutRecordPage({Key key, this.title, this.side}) : super(key: key);
   final String title;
+  final bool side;
   @override
   _WorkoutRecordPageState createState() => _WorkoutRecordPageState();
 }
@@ -104,7 +105,7 @@ class _WorkoutRecordPageState extends State<WorkoutRecordPage> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => WorkoutAnalyzePage(title: "JUMPY",images:collectedImages),
+        builder: (context) => WorkoutAnalyzePage(title: "JUMPY",images:collectedImages, side: widget.side),
       ),
     );
   }
