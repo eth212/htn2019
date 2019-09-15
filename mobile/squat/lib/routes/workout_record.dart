@@ -3,14 +3,14 @@ import 'package:squat/main.dart';
 import 'package:camera/camera.dart';
 import 'package:squat/camera.dart';
 
-class WorkoutAnalyzePage extends StatefulWidget {
-  WorkoutAnalyzePage({Key key, this.title}) : super(key: key);
+class WorkoutRecordPage extends StatefulWidget {
+  WorkoutRecordPage({Key key, this.title}) : super(key: key);
   final String title;
   @override
-  _WorkoutAnalyzePageState createState() => _WorkoutAnalyzePageState();
+  _WorkoutRecordPageState createState() => _WorkoutRecordPageState();
 }
 
-class _WorkoutAnalyzePageState extends State<WorkoutAnalyzePage> {
+class _WorkoutRecordPageState extends State<WorkoutRecordPage> {
   bool isRecording = false;
   String message = "Start";
   List<CameraImage> collectedImages;
@@ -103,7 +103,7 @@ class _WorkoutAnalyzePageState extends State<WorkoutAnalyzePage> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => WorkoutAnalyzePage(),
+        builder: (context) => WorkoutRecordPage(),
       ),
     );
   }

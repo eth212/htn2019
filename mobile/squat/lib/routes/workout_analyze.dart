@@ -23,7 +23,7 @@ class _WorkoutAnalyzePageState extends State<WorkoutAnalyzePage> {
     super.initState();
     cameras = null;
     _recognitions = List();
-    process();
+    //process();
   }
 
   @override
