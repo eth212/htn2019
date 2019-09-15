@@ -2,18 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:squat/main.dart';
 import 'package:camera/camera.dart';
 import 'package:tflite/tflite.dart';
-import 'package:squat/camera.dart';
 
 class WorkoutAnalyzePage extends StatefulWidget {
-  WorkoutAnalyzePage({Key key, this.title}) : super(key: key);
+  WorkoutAnalyzePage({Key key, this.title, this.images}) : super(key: key);
   final String title;
+  final List<CameraImage> images;
   @override
   _WorkoutAnalyzePageState createState() => _WorkoutAnalyzePageState();
 }
 
 class _WorkoutAnalyzePageState extends State<WorkoutAnalyzePage> {
   List<dynamic> _recognitions;
-  int _model = POSENET;
   bool isRecording = false;
   String message = "Start";
   List<CameraImage> collectedImages;
@@ -21,10 +20,9 @@ class _WorkoutAnalyzePageState extends State<WorkoutAnalyzePage> {
   List<CameraDescription> cameras;
   @override
   initState() {
+    super.initState();
     cameras = null;
     _recognitions = List();
-    collectedImages = List();
-
     getCameras();
   }
 
@@ -48,7 +46,7 @@ class _WorkoutAnalyzePageState extends State<WorkoutAnalyzePage> {
         child: AppBar(
             centerTitle: true,
             title: new Text(
-              'JUMPY',
+              'JUMPY ',
               style: TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.w300,
@@ -56,77 +54,12 @@ class _WorkoutAnalyzePageState extends State<WorkoutAnalyzePage> {
             ),
             backgroundColor: SquatApp().squatPrimary),
       ),
-      body: cameras == null
-          ? getInteractionWidget()
-          : Stack(
-              children: <Widget>[
-                Camera(cameras, POSENET, addImage, isRecording),
-                Center(
-                  child: Column(
-                    children: <Widget>[
-                      RaisedButton(
-                        child: Text("${message} Recording"),
-                        onPressed: interact,
-                      ),
-                      Container(child: Text(collectedImages.length.toString())),
-                    ],
-                  ),
-                )
-              ],
-            ),
+      body: Center(
+          child: Column(
+        children: <Widget>[
+          Text("Please rest"),
+        ],
+      )),
     );
-  }
-
-  void interact() {
-    setState(() {
-      if (isRecording) {
-        isRecording = false;
-        message = "Start";
-      } else {
-        isRecording = true;
-        message = "Stop";
-      }
-    });
-  }
-
-  Widget getInteractionWidget() {
-    return Container(
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [Colors.white60, const Color(0xff6A8ADB)]),
-      ),
-      child: Center(
-        child: Text("No Camera Found"),
-      ),
-    );
-  }
-
-  void processPoseFromImage(CameraImage img) async {
-    int startTime = new DateTime.now().millisecondsSinceEpoch;
-    await Tflite.runPoseNetOnFrame(
-      bytesList: img.planes.map((plane) {
-        return plane.bytes;
-      }).toList(),
-      imageHeight: img.height,
-      imageWidth: img.width,
-      numResults: 2,
-    ).then((recognitions) {
-      int endTime = new DateTime.now().millisecondsSinceEpoch;
-      print("Detection took ${(endTime - startTime) / 1000}");
-      setRecognitions(recognitions);
-    });
-  }
-
-  //Callback for camera or reading from file, break file into images.
-  addImage(CameraImage img) {
-    collectedImages.add(img);
-  }
-
-  setRecognitions(recognitions) {
-    setState(() {
-      _recognitions = recognitions;
-    });
   }
 }
