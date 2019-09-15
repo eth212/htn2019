@@ -23,18 +23,7 @@ class _WorkoutAnalyzePageState extends State<WorkoutAnalyzePage> {
     super.initState();
     cameras = null;
     _recognitions = List();
-    getCameras();
-  }
-
-  Future<Null> getCameras() async {
-    try {
-      dynamic camerasNow = await availableCameras();
-      setState(() {
-        cameras = camerasNow;
-      });
-    } on CameraException catch (e) {
-      print('Error: $e.code\nError Message: $e.message');
-    }
+    process();
   }
 
   @override

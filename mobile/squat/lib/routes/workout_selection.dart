@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:squat/main.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
+import 'package:squat/routes/workout_record.dart';
 class WorkoutSelectionPage extends StatefulWidget {
   WorkoutSelectionPage({Key key, this.title}) : super(key: key);
   final String title;
@@ -27,33 +27,43 @@ class _WorkoutSelectionPageState extends State<WorkoutSelectionPage> {
         floatingActionButton: FloatingActionButton.extended(
           elevation: 0,
           // icon: const Icon(Icons.add),
-          label: const Text('Workout',style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w500,
-                        fontSize: 15)),
-          onPressed: () {},
+          label: const Text('Workout',
+              style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.w500,
+                  fontSize: 15)),
+          onPressed: fastForward,
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         body: WorkoutList(),
         bottomNavigationBar: BottomAppBar(
-          child: new Row(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              IconButton(
-                icon: Icon(Icons.arrow_back),
-                onPressed: () {
-                  FirebaseAuth.instance.signOut().then((value){
-                    Navigator.of(context).pop();
-                  });
-                },
-              ),
-              Expanded(
-                child: Text(''),
-              )
-            ],
-          ),
-        color:SquatApp().squatPrimary));
+            child: new Row(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                IconButton(
+                  icon: Icon(Icons.arrow_back),
+                  onPressed: () {
+                    FirebaseAuth.instance.signOut().then((value) {
+                      Navigator.of(context).pop();
+                    });
+                  },
+                ),
+                Expanded(
+                  child: Text(''),
+                )
+              ],
+            ),
+            color: SquatApp().squatPrimary));
+  }
+
+  fastForward() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => WorkoutRecordPage(),
+      ),
+    );
   }
 }
 
@@ -66,9 +76,14 @@ class WorkoutList extends StatefulWidget {
 
 class WorkoutListState extends State<WorkoutList> {
   static var size = Size(0, 0);
-  final imageLinks = ['Hi', 'Nah', 'You','Right?'];
-  final headerText = ['Squats','Pullups','Running','Wow'];
-  final contentText = ['Time for your glutes.','You think you got form?','Great','New apartment!'];
+  final imageLinks = ['Hi', 'Nah', 'You', 'Right?'];
+  final headerText = ['Squats', 'Pullups', 'Running', 'Wow'];
+  final contentText = [
+    'Time for your glutes.',
+    'You think you got form?',
+    'Great',
+    'New apartment!'
+  ];
 
   /*24 is for notification bar on Android*/
   static double itemHeight = (size.height - kToolbarHeight - 24) / 2;
@@ -108,7 +123,7 @@ class WorkoutListState extends State<WorkoutList> {
           imageLinks.length,
           (i) {
             print(i);
-            
+
             // if (i.isOdd) return Divider();
             // If you've reached at the end of the available word pairs...
             // if (index >= _suggestions.length) {

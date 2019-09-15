@@ -22,7 +22,7 @@ class SquatApp extends StatelessWidget {
 }
 
 Widget _handleWindowDisplay(){
- 
+  return WorkoutSelectionPage();
   return StreamBuilder(
     stream: FirebaseAuth.instance.onAuthStateChanged,
     builder: (BuildContext context, snapshot){
