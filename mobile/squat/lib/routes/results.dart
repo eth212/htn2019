@@ -1,5 +1,7 @@
+import 'dart:ffi';
 import 'dart:io';
-
+import 'dart:math';
+// import 'dart:num';
 import 'package:flutter/material.dart';
 import 'package:flutter_rounded_progress_bar/flutter_icon_rounded_progress_bar.dart';
 import 'package:flutter_rounded_progress_bar/rounded_progress_bar_style.dart';
@@ -112,7 +114,18 @@ class ResultsListState extends State<ResultsList> {
     size = MediaQuery.of(context).size;
     itemHeight = (size.height - kToolbarHeight - 24) / 2;
     itemWidth = size.width / 2;
-
+    dynamic values = [s_hip, h_knee,k_ankle];
+    dynamic hipInsight = '',kneeInsight = '',ankleInsight ='',fullInsight = '';
+    if(s_hip > 0.4) {
+      hipInsight = 'Try and drop your shoulders down slightly more';
+    }
+    if(h_knee > 0.4 ) kneeInsight = 'Stick your butt out!';
+      
+    if(k_ankle > 0.4) ankleInsight = 'Remember to bend your knees but never past your feet :)';
+    if(s_hip < 0.4 && h_knee < 0.4 && k_ankle < 0.4) fullInsight = 'All your metrics were near-perfect. Great job!';
+    else {
+      fullInsight = hipInsight +'\n'  +kneeInsight +'\n' + ankleInsight;
+    }
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
@@ -131,7 +144,7 @@ class ResultsListState extends State<ResultsList> {
         ),
         Center(
           child: Text(
-            'Great job!\nDo better next time.',
+            fullInsight,
             textAlign: TextAlign.center,
             style: TextStyle(
                 color: Colors.white,
@@ -171,6 +184,22 @@ class ResultsListState extends State<ResultsList> {
       // 'Shoulder Inflection'
     ];
     dynamic values = [s_hip, h_knee,k_ankle];
+    dynamic hipInsight = '',kneeInsight = '',ankleInsight ='',fullInsight = '';
+    if(s_hip > 0.4) {
+      hipInsight = 'Try and drop your shoulders down slightly more';
+    }
+    if(h_knee > 0.4 ) kneeInsight = 'Stick your butt out!';
+      
+    if(k_ankle > 0.4) ankleInsight = 'Remember to bend your knees but never past your feet :)';
+    if(s_hip < 0.4 && h_knee < 0.4 && k_ankle < 0.4) fullInsight = 'All your metrics were near-perfect. Great job!';
+    else {
+      fullInsight = hipInsight +'\n'  +kneeInsight +'\n' + ankleInsight;
+    }
+
+    for(int i = 0; i < values.length;i++) {
+        // values[i] = values[i]*50 + 50;
+        values[i] = values[i]*50;
+    }
 
     return new Center(
       child: Column(children: [

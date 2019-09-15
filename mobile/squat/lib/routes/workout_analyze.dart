@@ -44,7 +44,7 @@ class _WorkoutAnalyzePageState extends State<WorkoutAnalyzePage> {
     dynamic shoulder_hip_value = tanh((70 - min_theta_1) / 8.13);
     dynamic hip_knee_value = tanh((12.9 - min_theta_2) / 9.5);
     dynamic knee_ankle_value = tanh((62 - min_theta_3) / 6.8);
-    setState(() {
+    print('navigator push!');
       Navigator.push(context,MaterialPageRoute(
         builder: (context) => ResultsPage(
           shoulder_hip_value: shoulder_hip_value,
@@ -53,12 +53,15 @@ class _WorkoutAnalyzePageState extends State<WorkoutAnalyzePage> {
           title: widget.title,
         ),
       ));
-    });
+    // setState(() {
+
+    // });
   }
 
   void processModelA(List<CameraImage> images) async {
+    print('procesing model a');
     ReceivePort receivePort = ReceivePort();
-    await FlutterIsolate.spawn(processPoseFromImage, receivePort.sendPort);
+    FlutterIsolate isolate = await FlutterIsolate.spawn(processPoseFromImage, receivePort.sendPort);
     var sendPort = await receivePort.first;
     for (CameraImage image in images) {
       var msg = await sendReceive(
@@ -74,7 +77,7 @@ class _WorkoutAnalyzePageState extends State<WorkoutAnalyzePage> {
       _recognitions.add(msg);
     }
     await sendReceive(sendPort, null);
-
+    isolate.kill();
     print("Processed the stream!");
   }
 
