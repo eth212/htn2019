@@ -42,7 +42,11 @@ class _WorkoutSelectionPageState extends State<WorkoutSelectionPage> {
             children: <Widget>[
               IconButton(
                 icon: Icon(Icons.arrow_back),
-                onPressed: () {},
+                onPressed: () {
+                  FirebaseAuth.instance.signOut().then((value){
+                    Navigator.of(context).pop();
+                  });
+                },
               ),
               Expanded(
                 child: Text(''),
