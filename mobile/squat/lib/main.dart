@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:squat/routes/cameracalibration.dart';
 import 'package:squat/routes/login.dart';
 import 'package:squat/routes/workout_selection.dart';
 import 'routes/home.dart';
@@ -14,7 +15,7 @@ class SquatApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.lightBlue,
       ),
-      home: WorkoutSelectionPage(),
+      home: HomePage(),
     );
   }
   final squatPrimary = const Color(0xff6A8ADB);
@@ -32,7 +33,7 @@ Widget _handleWindowDisplay(){
         if(snapshot.hasData){
           return WorkoutSelectionPage();
         } else{
-          return Login();
+          return HomePage();
           } 
         }
   },);
