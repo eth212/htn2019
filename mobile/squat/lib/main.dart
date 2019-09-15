@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:squat/routes/login.dart';
 import 'package:squat/routes/workout_selection.dart';
 import 'routes/home.dart';
 import 'routes/results.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 void main() => runApp(SquatApp());
 
@@ -13,9 +15,26 @@ class SquatApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.lightBlue,
       ),
-      home: WorkoutSelectionPage(title: 'JUMPY'),
+      home: _handleWindowDisplay(),
     );
   }
   final squatPrimary = const Color(0xff6A8ADB);
 
+}
+
+Widget _handleWindowDisplay(){
+ 
+  return StreamBuilder(
+    stream: FirebaseAuth.instance.onAuthStateChanged,
+    builder: (BuildContext context, snapshot){
+      if(snapshot.connectionState == ConnectionState.waiting){
+        return Center(child: Text("Loading"));
+      } else {
+        if(snapshot.hasData){
+          return WorkoutSelectionPage();
+        } else{
+          return Login();
+          } 
+        }
+  },);
 }
