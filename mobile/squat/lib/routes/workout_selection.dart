@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:squat/main.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -66,9 +68,6 @@ class WorkoutList extends StatefulWidget {
 
 class WorkoutListState extends State<WorkoutList> {
   static var size = Size(0, 0);
-  final imageLinks = ['Hi', 'Nah', 'You','Right?'];
-  final headerText = ['Squats','Pullups','Running','Wow'];
-  final contentText = ['Time for your glutes.','You think you got form?','Great','New apartment!'];
 
   /*24 is for notification bar on Android*/
   static double itemHeight = (size.height - kToolbarHeight - 24) / 2;
@@ -98,6 +97,10 @@ class WorkoutListState extends State<WorkoutList> {
   }
 
   Widget buildList() {
+      final imageLinks = ['assets/squatRecognition.png', 'assets/splash.png', 'assets/squat.png'];
+      final headerText = ['Squats','Pullups','Running','Pushups'];
+      final contentText = ['Time for your glutes.','You think you got form?','Hard to master.','Backtime.'];
+
     return new Padding(
       padding: EdgeInsets.all(10),
       child: GridView.count(
@@ -123,15 +126,28 @@ class WorkoutListState extends State<WorkoutList> {
   }
 
   Widget buildCard(index) {
+          final imageLinks = ['assets/squatRecognition.JPG', 'assets/splash.png', 'assets/squat.png'];
+      final headerText = ['Squats','Pullups','Running','Wow'];
+      final contentText = ['Time for your glutes.','You think you got form?','Great','New apartment!'];
+
     return new Center(
       child: Card(
         semanticContainer: true,
         clipBehavior: Clip.antiAliasWithSaveLayer,
         child: Column(children: [
-          Image.network(
-            'https://placeimg.com/640/480/any',
-            fit: BoxFit.fill,
-          ),
+          Expanded(
+                child: Container(
+                  decoration: BoxDecoration(
+                    image: DecorationImage(fit: BoxFit.fill,
+                      image: AssetImage(imageLinks[index]),
+                    ),
+                  ),
+                ),
+              ),
+          // Image.file(File(    imageLinks[index]),
+          //    // 'https://placeimg.com/640/480/any'
+          //    fit: BoxFit.fill,
+          //  ),
           Row(children: [
             Padding(
               padding: EdgeInsets.only(left: 10, top: 10, right: 10, bottom: 5),
