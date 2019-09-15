@@ -19,7 +19,7 @@ class CameraCalibrationState extends State<CameraCalibration> {
             elevation: 0.0,
             centerTitle: true,
             title: new Text(
-              'JUMPY',
+              'ProForm',
               style: TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.w300,
@@ -140,7 +140,7 @@ class CalibrationDecisionState extends State<CalibrationDecision> {
                             context,
                             MaterialPageRoute(
                               builder: (context) => WorkoutRecordPage(
-                                title: "JUMPY",
+                                title: "ProForm",
                                 side: true,
                               ),
                             ),
@@ -175,7 +175,7 @@ class CalibrationDecisionState extends State<CalibrationDecision> {
                             context,
                             MaterialPageRoute(
                               builder: (context) => WorkoutRecordPage(
-                                title: "JUMPY",
+                                title: "ProForm",
                                 side: false,
                               ),
                             ),

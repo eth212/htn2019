@@ -3,6 +3,7 @@ import 'package:squat/main.dart';
 import 'package:camera/camera.dart';
 import 'package:squat/camera.dart';
 import 'package:squat/routes/workout_analyze.dart';
+
 class WorkoutRecordPage extends StatefulWidget {
   WorkoutRecordPage({Key key, this.title, this.side}) : super(key: key);
   final String title;
@@ -45,7 +46,7 @@ class _WorkoutRecordPageState extends State<WorkoutRecordPage> {
         child: AppBar(
             centerTitle: true,
             title: new Text(
-              'JUMPY',
+              'ProForm',
               style: TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.w300,
@@ -60,13 +61,21 @@ class _WorkoutRecordPageState extends State<WorkoutRecordPage> {
                 Camera(cameras, POSENET, addImage, isRecording),
                 Center(
                   child: Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
                     children: <Widget>[
-                      RaisedButton(
-                        child: Text(message + "Recording"),
-                        onPressed: interact,
-                      ),
-                      Container(child: Text(collectedImages.length.toString())),
-                    ],
+                      Container(
+                        margin: EdgeInsets.all(8),
+                        child: FloatingActionButton.extended(
+                          elevation: 0,
+                          // icon: const Icon(Icons.add),
+                          label: Text(message + " Workout",
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 15)),
+                          onPressed: interact,
+                        ),
+                      )                    ],
                   ),
                 )
               ],
@@ -105,7 +114,8 @@ class _WorkoutRecordPageState extends State<WorkoutRecordPage> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => WorkoutAnalyzePage(title: "JUMPY",images:collectedImages, side: widget.side),
+        builder: (context) => WorkoutAnalyzePage(
+            title: "ProForm", images: collectedImages, side: widget.side),
       ),
     );
   }

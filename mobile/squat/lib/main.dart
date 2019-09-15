@@ -15,7 +15,7 @@ class SquatApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.lightBlue,
       ),
-      home: CameraCalibration(),
+      home: HomePage(),
     );
   }
   final squatPrimary = const Color(0xff6A8ADB);

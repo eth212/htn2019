@@ -67,7 +67,8 @@ class _WorkoutAnalyzePageState extends State<WorkoutAnalyzePage> {
   void processModelA(List<CameraImage> images) async {
     print('procesing model a');
     ReceivePort receivePort = ReceivePort();
-    FlutterIsolate isolate = await FlutterIsolate.spawn(processPoseFromImage, receivePort.sendPort);
+    FlutterIsolate isolate =
+        await FlutterIsolate.spawn(processPoseFromImage, receivePort.sendPort);
     var sendPort = await receivePort.first;
     for (int i = 0; i < images.length; i += 1) {
       CameraImage image = images[i];
@@ -240,7 +241,7 @@ class _WorkoutAnalyzePageState extends State<WorkoutAnalyzePage> {
           children: <Widget>[
             Spacer(),
             isRecognizing
-                ? Text("Please rest")
+                ? Text("Please rest while we obtain insights?")
                 : RaisedButton(
                     onPressed: toResults,
                   ),

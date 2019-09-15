@@ -38,7 +38,7 @@ class _HomePageState extends State<HomePage> {
                 aspectRatio: 410 / 274,
                 child: Padding(
                   padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
-                  child: Text('JUMPY',
+                  child: Text('ProForm',
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           color: Colors.white,
@@ -60,24 +60,7 @@ class _HomePageState extends State<HomePage> {
                         fontSize: 30)),
               ),
               Padding(
-                padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
-                child: MaterialButton(
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(2.5))),
-                  elevation: 5.0,
-                  minWidth: 164.0,
-                  height: 50,
-                  color: Color(0xff6A8ADB),
-                  child: new Text('Login',
-                      style: new TextStyle(
-                          fontSize: 14.0,
-                          color: Colors.white,
-                          fontWeight: FontWeight.w400)),
-                  onPressed: () {},
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
+                padding: EdgeInsets.fromLTRB(0, 20, 0, 40),
                 child: MaterialButton(
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(2.5))),
@@ -95,7 +78,7 @@ class _HomePageState extends State<HomePage> {
                       context,
                       MaterialPageRoute(
                         builder: (context) => WorkoutSelectionPage(
-                          title: "JUMPY",
+                          title: "ProForm",
                         ),
                       ),
                     );

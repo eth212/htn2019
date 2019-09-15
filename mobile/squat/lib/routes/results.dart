@@ -125,9 +125,9 @@ class ResultsListState extends State<ResultsList> {
   /*24 is for notification bar on Android*/
   final double itemHeight = (size.height - kToolbarHeight - 24) / 2;
   final double itemWidth = size.width / 2;
-  dynamic s_hip = 0;
-  dynamic h_knee = 0;
-  dynamic k_ankle = 0;
+  double s_hip = 0;
+  double h_knee = 0;
+  double k_ankle = 0;
   @override
   void initState() {
     super.initState();
@@ -145,19 +145,28 @@ class ResultsListState extends State<ResultsList> {
     dynamic hipInsight = '',
         kneeInsight = '',
         ankleInsight = '',
-        fullInsight = '';  
-    if (0.4 > 0.4) {
+        fullInsight = '';
+    if (s_hip > 0.4) {
       hipInsight = 'Try and drop your shoulders down slightly more';
     }
-    if (0.3 > 0.4) kneeInsight = 'Stick your butt out!';
+    if (h_knee > 0.4) kneeInsight = 'Stick your butt out!';
 
-    if (0.4 > 0.4)
+    if (k_ankle > 0.4)
       ankleInsight = 'Remember to bend your knees but never past your feet :)';
     if (s_hip < 0.4 && h_knee < 0.4 && k_ankle < 0.4)
       fullInsight = 'All your metrics were near-perfect. Great job!';
     else {
       fullInsight = hipInsight + '\n' + kneeInsight + '\n' + ankleInsight;
     }
+    print("STUFF:" + s_hip.toString() + " " + h_knee.toString() + " " + k_ankle.toString());
+    return Column(
+      children: <Widget>[
+        Text(s_hip.toString()),
+        Text(h_knee.toString()),
+        Text(k_ankle.toString()),
+        
+      ],
+    );
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [

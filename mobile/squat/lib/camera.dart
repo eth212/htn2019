@@ -68,19 +68,12 @@ class _CameraState extends State<Camera> {
     var screenRatio = screenH / screenW;
     var previewRatio = previewH / previewW;
 
-    return Stack(
-      children: <Widget>[
-        OverflowBox(
-          maxHeight: screenRatio > previewRatio
-              ? screenH
-              : screenW / previewW * previewH,
-          maxWidth: screenRatio > previewRatio
-              ? screenH / previewH * previewW
-              : screenW,
-          child: CameraPreview(controller),
-        ),
-        Container(child: Text(widget.isDetecting ? "recording" : "not...")),
-      ],
+    return OverflowBox(
+      maxHeight:
+          screenRatio > previewRatio ? screenH : screenW / previewW * previewH,
+      maxWidth:
+          screenRatio > previewRatio ? screenH / previewH * previewW : screenW,
+      child: CameraPreview(controller),
     );
   }
 }

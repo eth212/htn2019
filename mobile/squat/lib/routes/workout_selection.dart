@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:squat/main.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'cameracalibration.dart';
+
 class WorkoutSelectionPage extends StatefulWidget {
   WorkoutSelectionPage({Key key, this.title}) : super(key: key);
   final String title;
@@ -18,7 +19,7 @@ class _WorkoutSelectionPageState extends State<WorkoutSelectionPage> {
             preferredSize: Size.fromHeight(70.0),
             child: AppBar(
                 centerTitle: true,
-                title: new Text('JUMPY',
+                title: new Text('ProForm',
                     style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.w300,
@@ -98,24 +99,36 @@ class WorkoutListState extends State<WorkoutList> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-            padding: EdgeInsets.only(left: 7.5, right: 15, top: 15),
-            child: Text('WORKOUTS',
-                textAlign: TextAlign.start,
-                style: TextStyle(
-                    color: Colors.white,
-                    letterSpacing: 0.15,
-                    fontWeight: FontWeight.normal,
-                    height: 1.2,
-                    fontSize: 28))),
+          padding: EdgeInsets.only(left: 7.5, right: 15, top: 15),
+          child: Text(
+            'WORKOUTS',
+            textAlign: TextAlign.start,
+            style: TextStyle(
+                color: Colors.white,
+                letterSpacing: 0.15,
+                fontWeight: FontWeight.normal,
+                height: 1.2,
+                fontSize: 28),
+          ),
+        ),
         Expanded(child: buildList()),
       ],
     );
   }
 
   Widget buildList() {
-      final imageLinks = ['assets/squatRecognition.png', 'assets/splash.png', 'assets/squat.png'];
-      final headerText = ['Squats','Pullups','Running','Pushups'];
-      final contentText = ['Time for your glutes.','You think you got form?','Hard to master.','Backtime.'];
+    final imageLinks = [
+      'assets/squatRecognition.png',
+      'assets/splash.png',
+      'assets/squat.png'
+    ];
+    final headerText = ['Squats', 'Pullups', 'Running', 'Pushups'];
+    final contentText = [
+      'Time for your glutes.',
+      'You think you got form?',
+      'Hard to master.',
+      'Backtime.'
+    ];
 
     return new Padding(
       padding: EdgeInsets.all(10),
@@ -127,13 +140,6 @@ class WorkoutListState extends State<WorkoutList> {
           imageLinks.length,
           (i) {
             print(i);
-
-            // if (i.isOdd) return Divider();
-            // If you've reached at the end of the available word pairs...
-            // if (index >= _suggestions.length) {
-            //   // ...then generate 10 more and add them to the suggestions list.
-            //   _suggestions.addAll(generateWordPairs().take(10));
-            // }
             return buildCard(i);
           },
         ),
@@ -142,9 +148,18 @@ class WorkoutListState extends State<WorkoutList> {
   }
 
   Widget buildCard(index) {
-          final imageLinks = ['assets/squatRecognition.JPG', 'assets/splash.png', 'assets/squat.png'];
-      final headerText = ['Squats','Pullups','Running','Wow'];
-      final contentText = ['Time for your glutes.','You think you got form?','Great','New apartment!'];
+    final imageLinks = [
+      'assets/squatRecognition.JPG',
+      'assets/splash.png',
+      'assets/squat.png'
+    ];
+    final headerText = ['Squats', 'Pullups', 'Running', 'Wow'];
+    final contentText = [
+      'Time for your glutes.',
+      'You think you got form?',
+      'Great',
+      'New apartment!'
+    ];
 
     return new Center(
       child: Card(
@@ -152,14 +167,15 @@ class WorkoutListState extends State<WorkoutList> {
         clipBehavior: Clip.antiAliasWithSaveLayer,
         child: Column(children: [
           Expanded(
-                child: Container(
-                  decoration: BoxDecoration(
-                    image: DecorationImage(fit: BoxFit.fill,
-                      image: AssetImage(imageLinks[index]),
-                    ),
-                  ),
+            child: Container(
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  fit: BoxFit.fill,
+                  image: AssetImage(imageLinks[index]),
                 ),
               ),
+            ),
+          ),
           // Image.file(File(    imageLinks[index]),
           //    // 'https://placeimg.com/640/480/any'
           //    fit: BoxFit.fill,
