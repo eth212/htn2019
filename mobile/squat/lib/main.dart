@@ -5,8 +5,6 @@ import 'package:squat/routes/workout_selection.dart';
 import 'routes/home.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-import 'routes/results.dart';
-
 void main() => runApp(SquatApp());
 
 class SquatApp extends StatelessWidget {
@@ -17,7 +15,7 @@ class SquatApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.lightBlue,
       ),
-      home: CameraCalibration(),
+      home: HomePage(),
     );
   }
   final squatPrimary = const Color(0xff6A8ADB);
@@ -35,7 +33,7 @@ Widget _handleWindowDisplay(){
         if(snapshot.hasData){
           return WorkoutSelectionPage();
         } else{
-          return Login();
+          return HomePage();
           } 
         }
   },);
