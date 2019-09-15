@@ -101,7 +101,8 @@ class CalibrationDecisionState extends State<CalibrationDecision> {
           mainAxisAlignment: MainAxisAlignment.center,
         ),
         Row(
-          children: [Padding(
+          children: [
+            Padding(
                 padding: EdgeInsets.fromLTRB(20, 5, 20, 5),
                 child: Text(
                   'Which side of yours will the camera see?',
@@ -111,7 +112,8 @@ class CalibrationDecisionState extends State<CalibrationDecision> {
                       fontWeight: FontWeight.w400,
                       fontSize: 18,
                       fontFamily: "RobotoCondensed"),
-                )),],
+                )),
+          ],
           mainAxisAlignment: MainAxisAlignment.center,
         ),
         Expanded(
@@ -119,9 +121,11 @@ class CalibrationDecisionState extends State<CalibrationDecision> {
             children: [
               Expanded(
                 child: Container(
+                  
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
+                      
                       new MaterialButton(
                         shape: RoundedRectangleBorder(
                             borderRadius:
