@@ -14,7 +14,7 @@ class WorkoutAnalyzePage extends StatefulWidget {
 class _WorkoutAnalyzePageState extends State<WorkoutAnalyzePage> {
   List<dynamic> _recognitions;
   bool isRecording = false;
-  String message = "Start";
+  String output = "Output not computed.";
   List<CameraImage> collectedImages;
 
   List<CameraDescription> cameras;
@@ -25,7 +25,9 @@ class _WorkoutAnalyzePageState extends State<WorkoutAnalyzePage> {
     _recognitions = List();
     //process();
   }
+  process(){
 
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,12 +45,23 @@ class _WorkoutAnalyzePageState extends State<WorkoutAnalyzePage> {
             ),
             backgroundColor: SquatApp().squatPrimary),
       ),
-      body: Center(
-          child: Column(
-        children: <Widget>[
-          Text("Please rest"),
-        ],
-      )),
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [Colors.white70, const Color(0xff6A8ADB)]),
+        ),
+        child: Center(
+            child: Column(
+          children: <Widget>[
+            Spacer(),
+            Text("Please rest"),
+            Text("Output  not computed"),
+            Spacer(),
+          ],
+        )),
+      ),
     );
   }
 }

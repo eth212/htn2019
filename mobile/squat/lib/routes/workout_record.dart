@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:squat/main.dart';
 import 'package:camera/camera.dart';
 import 'package:squat/camera.dart';
-
+import 'package:squat/routes/workout_analyze.dart';
 class WorkoutRecordPage extends StatefulWidget {
   WorkoutRecordPage({Key key, this.title}) : super(key: key);
   final String title;
@@ -77,7 +77,8 @@ class _WorkoutRecordPageState extends State<WorkoutRecordPage> {
     setState(() {
       if (isRecording) {
         isRecording = false;
-        message = "Start";
+        message = "Done";
+        toAnalysis();
       } else {
         isRecording = true;
         message = "Stop";
@@ -103,7 +104,7 @@ class _WorkoutRecordPageState extends State<WorkoutRecordPage> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => WorkoutRecordPage(),
+        builder: (context) => WorkoutAnalyzePage(),
       ),
     );
   }
