@@ -9,7 +9,6 @@ class Camera extends StatefulWidget {
   final ImageCallback addImage;
   final int model;
   final bool isDetecting;
-
   final List<CameraDescription> cameras;
 
   Camera(this.cameras, this.model, this.addImage, this.isDetecting);
@@ -20,8 +19,6 @@ class Camera extends StatefulWidget {
 
 class _CameraState extends State<Camera> {
   CameraController controller;
-  List<CameraImage> processedImages;
-  
 
   @override
   void initState() {
@@ -32,7 +29,8 @@ class _CameraState extends State<Camera> {
     } else {
       controller = new CameraController(
         widget.cameras[0],
-        ResolutionPreset.medium,
+        ResolutionPreset.low,
+        enableAudio: false,
       );
       controller.initialize().then((_) {
         if (!mounted) {
@@ -70,12 +68,19 @@ class _CameraState extends State<Camera> {
     var screenRatio = screenH / screenW;
     var previewRatio = previewH / previewW;
 
-    return OverflowBox(
-      maxHeight:
-          screenRatio > previewRatio ? screenH : screenW / previewW * previewH,
-      maxWidth:
-          screenRatio > previewRatio ? screenH / previewH * previewW : screenW,
-      child: CameraPreview(controller),
+    return Stack(
+      children: <Widget>[
+        OverflowBox(
+          maxHeight: screenRatio > previewRatio
+              ? screenH
+              : screenW / previewW * previewH,
+          maxWidth: screenRatio > previewRatio
+              ? screenH / previewH * previewW
+              : screenW,
+          child: CameraPreview(controller),
+        ),
+        Container(child: Text(widget.isDetecting ? "recording" : "not...")),
+      ],
     );
   }
 }

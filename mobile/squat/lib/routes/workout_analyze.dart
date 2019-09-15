@@ -13,12 +13,11 @@ class WorkoutAnalyzePage extends StatefulWidget {
 
 class _WorkoutAnalyzePageState extends State<WorkoutAnalyzePage> {
   List<dynamic> _recognitions;
-  int _imageHeight = 0;
-  int _imageWidth = 0;
   int _model = POSENET;
   bool isRecording = false;
   String message = "Start";
   List<CameraImage> collectedImages;
+
   List<CameraDescription> cameras;
   @override
   initState() {
@@ -32,7 +31,9 @@ class _WorkoutAnalyzePageState extends State<WorkoutAnalyzePage> {
   Future<Null> getCameras() async {
     try {
       dynamic camerasNow = await availableCameras();
-      setState(() {cameras = camerasNow;});
+      setState(() {
+        cameras = camerasNow;
+      });
     } on CameraException catch (e) {
       print('Error: $e.code\nError Message: $e.message');
     }
@@ -61,14 +62,13 @@ class _WorkoutAnalyzePageState extends State<WorkoutAnalyzePage> {
               children: <Widget>[
                 Camera(cameras, POSENET, addImage, isRecording),
                 Center(
-                  child: Row(
+                  child: Column(
                     children: <Widget>[
-                      Spacer(),
                       RaisedButton(
                         child: Text("${message} Recording"),
                         onPressed: interact,
                       ),
-                      Spacer(),
+                      Container(child: Text(collectedImages.length.toString())),
                     ],
                   ),
                 )
@@ -79,11 +79,10 @@ class _WorkoutAnalyzePageState extends State<WorkoutAnalyzePage> {
 
   void interact() {
     setState(() {
-      if(isRecording){
+      if (isRecording) {
         isRecording = false;
         message = "Start";
-      }
-      else{
+      } else {
         isRecording = true;
         message = "Stop";
       }
@@ -92,12 +91,12 @@ class _WorkoutAnalyzePageState extends State<WorkoutAnalyzePage> {
 
   Widget getInteractionWidget() {
     return Container(
-                decoration: BoxDecoration(
-            gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: [Colors.white60, const Color(0xff6A8ADB)]),
-          ),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [Colors.white60, const Color(0xff6A8ADB)]),
+      ),
       child: Center(
         child: Text("No Camera Found"),
       ),
@@ -116,7 +115,7 @@ class _WorkoutAnalyzePageState extends State<WorkoutAnalyzePage> {
     ).then((recognitions) {
       int endTime = new DateTime.now().millisecondsSinceEpoch;
       print("Detection took ${(endTime - startTime) / 1000}");
-      setRecognitions(recognitions, img.height, img.width);
+      setRecognitions(recognitions);
     });
   }
 
@@ -125,11 +124,9 @@ class _WorkoutAnalyzePageState extends State<WorkoutAnalyzePage> {
     collectedImages.add(img);
   }
 
-  setRecognitions(recognitions, imageHeight, imageWidth) {
+  setRecognitions(recognitions) {
     setState(() {
       _recognitions = recognitions;
-      _imageHeight = imageHeight;
-      _imageWidth = imageWidth;
     });
   }
 }
