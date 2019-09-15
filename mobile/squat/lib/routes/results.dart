@@ -22,9 +22,17 @@ class ResultsPage extends StatefulWidget {
   final dynamic knee_ankle_value;
 
   @override
-  ResultsPagestate createState() => ResultsPagestate();
+  ResultsPagestate createState() {
+    s_hip = shoulder_hip_value;
+    h_knee = hip_knee_value;
+    k_ankle = knee_ankle_value;
+    // shoulder_hip_value,hip_knee_value,knee_ankle_value
+    return ResultsPagestate();
+  } 
 }
-
+dynamic s_hip = 0;
+dynamic h_knee = 0;
+dynamic k_ankle = 0;
 class ResultsPagestate extends State<ResultsPage> {
   @override
   Widget build(BuildContext context) {
@@ -154,19 +162,15 @@ class ResultsListState extends State<ResultsList> {
   }
 
   Widget buildCard(index) {
-    final imageLinks = [
-      'assets/squatRecognition.JPG',
-      'assets/splash.png',
-      'assets/squat.png',
-      'assets/squatangle.JPG'
-    ];
+// shoulder_hip_value,hip_knee_value,knee_ankle_value
     final headerText = [
-      'Back Angle',
-      'Squat Depth',
-      'Forward Push',
-      'Breadth',
-      'Shoulder Inflection'
+      'Shoulder-Hip',
+      'Hip-Knee',
+      'Knee-Ankle',
+      // 'Breadth',
+      // 'Shoulder Inflection'
     ];
+    dynamic values = [s_hip, h_knee,k_ankle];
 
     return new Center(
       child: Column(children: [
@@ -192,7 +196,7 @@ class ResultsListState extends State<ResultsList> {
                 widthIconSection: 70,
                 icon: Padding(
                     padding: EdgeInsets.all(8),
-                    child: Icon(Icons.airline_seat_flat, color: Colors.white)),
+                    child: Icon(Icons.person, color: Colors.white)),
                 style: RoundedProgressBarStyle(
                     colorBackgroundIcon: Color(0xffc0392b),
                     colorProgress: Color(0xffe74c3c),
@@ -203,7 +207,7 @@ class ResultsListState extends State<ResultsList> {
                     widthShadow: 3),
                 margin: EdgeInsets.symmetric(vertical: 16),
                 borderRadius: BorderRadius.circular(4),
-                percent: 40,
+                percent: values[index],
               ),
             ),
           ],

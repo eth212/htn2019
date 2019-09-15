@@ -45,14 +45,14 @@ class _WorkoutAnalyzePageState extends State<WorkoutAnalyzePage> {
     dynamic hip_knee_value = tanh((12.9 - min_theta_2) / 9.5);
     dynamic knee_ankle_value = tanh((62 - min_theta_3) / 6.8);
     setState(() {
-      MaterialPageRoute(
+      Navigator.push(context,MaterialPageRoute(
         builder: (context) => ResultsPage(
           shoulder_hip_value: shoulder_hip_value,
           hip_knee_value: hip_knee_value,
           knee_ankle_value: knee_ankle_value,
           title: widget.title,
         ),
-      );
+      ));
     });
   }
 
