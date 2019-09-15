@@ -29,13 +29,15 @@ class _WorkoutAnalyzePageState extends State<WorkoutAnalyzePage> {
   double error_slope = 0.10292;
   double min_theta_1, min_theta_2, min_theta_3;
   double height;
-
+  dynamic shoulder_hip_value;
+  dynamic hip_knee_value;
+  dynamic knee_ankle_value;
   @override
   initState() {
     super.initState();
     side = widget.side;
     _recognitions = List();
-    isRecognizing = false;
+    isRecognizing = true;
     processModelA(widget.images);
     min_theta_1 = 90;
     min_theta_2 = 90;
@@ -44,18 +46,22 @@ class _WorkoutAnalyzePageState extends State<WorkoutAnalyzePage> {
     dynamic shoulder_hip_value = tanh((70 - min_theta_1) / 8.13);
     dynamic hip_knee_value = tanh((12.9 - min_theta_2) / 9.5);
     dynamic knee_ankle_value = tanh((62 - min_theta_3) / 6.8);
-    print('navigator push!');
-      Navigator.push(context,MaterialPageRoute(
-        builder: (context) => ResultsPage(
-          shoulder_hip_value: shoulder_hip_value,
-          hip_knee_value: hip_knee_value,
-          knee_ankle_value: knee_ankle_value,
-          title: widget.title,
-        ),
-      ));
-    // setState(() {
+    setState(() {
+      isRecognizing = false;
+    });
+  }
 
-    // });
+  toResults() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ResultsPage(
+            shoulder_hip_value: shoulder_hip_value,
+            hip_knee_value: hip_knee_value,
+            knee_ankle_value: knee_ankle_value,
+            title: widget.title),
+      ),
+    );
   }
 
   void processModelA(List<CameraImage> images) async {
@@ -63,7 +69,8 @@ class _WorkoutAnalyzePageState extends State<WorkoutAnalyzePage> {
     ReceivePort receivePort = ReceivePort();
     FlutterIsolate isolate = await FlutterIsolate.spawn(processPoseFromImage, receivePort.sendPort);
     var sendPort = await receivePort.first;
-    for (CameraImage image in images) {
+    for (int i = 0; i < images.length; i += 1) {
+      CameraImage image = images[i];
       var msg = await sendReceive(
         sendPort,
         [
@@ -81,7 +88,7 @@ class _WorkoutAnalyzePageState extends State<WorkoutAnalyzePage> {
     print("Processed the stream!");
   }
 
-  void modelB() {
+  void modelB() async {
     for (dynamic pose in _recognitions) {
       double rightKnee_y,
           leftKnee_y,
@@ -232,7 +239,11 @@ class _WorkoutAnalyzePageState extends State<WorkoutAnalyzePage> {
             child: Column(
           children: <Widget>[
             Spacer(),
-            Text("Please rest"),
+            isRecognizing
+                ? Text("Please rest")
+                : RaisedButton(
+                    onPressed: toResults,
+                  ),
             Text(initialOutput),
             Spacer(),
           ],

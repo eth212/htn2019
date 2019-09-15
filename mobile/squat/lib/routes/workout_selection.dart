@@ -1,9 +1,6 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:squat/main.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:squat/routes/workout_record.dart';
 import 'cameracalibration.dart';
 class WorkoutSelectionPage extends StatefulWidget {
   WorkoutSelectionPage({Key key, this.title}) : super(key: key);
