@@ -81,22 +81,69 @@ class CalibrationDecisionState extends State<CalibrationDecision> {
     itemHeight = (size.height - kToolbarHeight - 24) / 2;
     itemWidth = size.width / 2;
 
-    return Row(
-        children: [
-          Expanded(child:Container(
-            child: Column(
-              children: <Widget>[Text('hi')],
-            ),
-            color: Color(0xff2D556B),
-          ),),
-                    Expanded(child:Container(
-            child: Column(
-              children: <Widget>[Text('hi')],
-            ),
-            color: Color(0xff9B4D4D),
-          ),),
-        ],
-      
+    return Column(
+      children: [
+        Row(
+          children: [Text('hi')],
+          mainAxisAlignment: MainAxisAlignment.center,
+        ),
+        Expanded(
+          child: Row(
+            children: [
+              Expanded(
+                child: Container(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      new MaterialButton(
+                        shape: RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(2.5))),
+                        elevation: 5.0,
+                        minWidth: 164.0,
+                        height: 50,
+                        color: Color(0xff6A8ADB),
+                        child: new Text('LEFT',
+                            style: new TextStyle(
+                                fontSize: 14.0,
+                                color: Colors.white,
+                                fontWeight: FontWeight.w400)),
+                        onPressed: () {},
+                      ),
+                    ],
+                  ),
+                  color: Color(0xff2D556B),
+                ),
+              ),
+              Expanded(
+                child: Container(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      new MaterialButton(
+                        shape: RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(2.5))),
+                        elevation: 5.0,
+                        minWidth: 164.0,
+                        height: 50,
+                        color: Color(0xff6A8ADB),
+                        child: new Text('RIGHT',
+                            style: new TextStyle(
+                                fontSize: 14.0,
+                                color: Colors.white,
+                                fontWeight: FontWeight.w400)),
+                        onPressed: () {},
+                      ),
+                    ],
+                  ),
+                  color: Color(0xff9B4D4D),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }
