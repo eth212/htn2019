@@ -13,10 +13,11 @@ class CameraCalibrationState extends State<CameraCalibration> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Color(0xff272727),
+        backgroundColor: SquatApp().squatPrimary,
         appBar: PreferredSize(
             preferredSize: Size.fromHeight(70.0),
             child: AppBar(
+                elevation: 0.0,
                 centerTitle: true,
                 title: new Text('JUMPY',
                     style: TextStyle(
@@ -84,7 +85,33 @@ class CalibrationDecisionState extends State<CalibrationDecision> {
     return Column(
       children: [
         Row(
-          children: [Text('hi')],
+          children: [
+            Padding(
+                padding: EdgeInsets.fromLTRB(20, 15, 20, 15),
+                child: Text(
+                  'CAMERA CALIBRATION',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w300,
+                      fontSize: 28,
+                      fontFamily: "RobotoCondensed"),
+                )),
+          ],
+          mainAxisAlignment: MainAxisAlignment.center,
+        ),
+        Row(
+          children: [Padding(
+                padding: EdgeInsets.fromLTRB(20, 5, 20, 5),
+                child: Text(
+                  'Which side of yours will the camera see?',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w400,
+                      fontSize: 18,
+                      fontFamily: "RobotoCondensed"),
+                )),],
           mainAxisAlignment: MainAxisAlignment.center,
         ),
         Expanded(
