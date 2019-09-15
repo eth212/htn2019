@@ -17,7 +17,7 @@ class _HomePageState extends State<HomePage> {
             gradient: LinearGradient(
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
-                colors: [Colors.white60, const Color(0xff6A8ADB)]),
+                colors: [const Color(0xff6A8ADB),Colors.white60, const Color(0xff6A8ADB)]),
           ),
           child: Column(
             children: <Widget>[

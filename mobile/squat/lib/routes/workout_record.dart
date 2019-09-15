@@ -104,7 +104,7 @@ class _WorkoutRecordPageState extends State<WorkoutRecordPage> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => WorkoutAnalyzePage(),
+        builder: (context) => WorkoutAnalyzePage(title: "JUMPY",images:collectedImages),
       ),
     );
   }
