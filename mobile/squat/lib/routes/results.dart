@@ -14,34 +14,33 @@ class ResultsPage extends StatefulWidget {
   ResultsPage(
       {Key key,
       this.title,
-      this.shoulder_hip_value,
-      this.hip_knee_value,
-      this.knee_ankle_value})
+      this.shoulderHipValue,
+      this.hipKneeValue,
+      this.kneeAnkleValue})
       : super(key: key);
   final String title;
-  final dynamic shoulder_hip_value;
-  final dynamic hip_knee_value;
-  final dynamic knee_ankle_value;
+  final dynamic shoulderHipValue;
+  final dynamic hipKneeValue;
+  final dynamic kneeAnkleValue;
 
   @override
   ResultsPagestate createState() {
-    // shoulder_hip_value,hip_knee_value,knee_ankle_value
+    // shoulderHipValue,hipKneeValue,kneeAnkleValue
     return ResultsPagestate();
   }
 }
 
 class ResultsPagestate extends State<ResultsPage> {
-  dynamic s_hip = 0;
-  dynamic h_knee = 0;
-  dynamic k_ankle = 0;
+  dynamic sHip = 0;
+  dynamic hKnee = 0;
+  dynamic kAnkle = 0;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-
-    s_hip = widget.shoulder_hip_value;
-    h_knee = widget.hip_knee_value;
-    k_ankle = widget.knee_ankle_value;
+    sHip = widget.shoulderHipValue;
+    hKnee = widget.hipKneeValue;
+    kAnkle = widget.kneeAnkleValue;
   }
 
   @override
@@ -100,14 +99,14 @@ class ResultsList extends StatefulWidget {
   ResultsList(
       {Key key,
       this.title,
-      this.shoulder_hip_value,
-      this.hip_knee_value,
-      this.knee_ankle_value})
+      this.shoulderHipValue,
+      this.hipKneeValue,
+      this.kneeAnkleValue})
       : super(key: key);
   final String title;
-  final dynamic shoulder_hip_value;
-  final dynamic hip_knee_value;
-  final dynamic knee_ankle_value;
+  final dynamic shoulderHipValue;
+  final dynamic hipKneeValue;
+  final dynamic kneeAnkleValue;
   ResultsListState createState() => ResultsListState();
 }
 
@@ -125,15 +124,15 @@ class ResultsListState extends State<ResultsList> {
   /*24 is for notification bar on Android*/
   final double itemHeight = (size.height - kToolbarHeight - 24) / 2;
   final double itemWidth = size.width / 2;
-  double s_hip = 0;
-  double h_knee = 0;
-  double k_ankle = 0;
+  double sHip = 0;
+  double hKnee = 0;
+  double kAnkle = 0;
   @override
   void initState() {
     super.initState();
-    s_hip = widget.shoulder_hip_value;
-    h_knee = widget.hip_knee_value;
-    k_ankle = widget.knee_ankle_value;
+    sHip = widget.shoulderHipValue;
+    hKnee = widget.hipKneeValue;
+    kAnkle = widget.kneeAnkleValue;
   }
 
   @override
@@ -141,30 +140,34 @@ class ResultsListState extends State<ResultsList> {
     size = MediaQuery.of(context).size;
     dynamic itemHeight = (size.height - kToolbarHeight - 24) / 2;
     dynamic itemWidth = size.width / 2;
-    dynamic values = [s_hip, h_knee, k_ankle];
+    dynamic values = [sHip, hKnee, kAnkle];
     dynamic hipInsight = '',
         kneeInsight = '',
         ankleInsight = '',
         fullInsight = '';
-    if (s_hip > 0.4) {
+    if (sHip > 0.4) {
       hipInsight = 'Try and drop your shoulders down slightly more';
     }
-    if (h_knee > 0.4) kneeInsight = 'Stick your butt out!';
+    if (hKnee > 0.4) kneeInsight = 'Stick your butt out!';
 
-    if (k_ankle > 0.4)
+    if (kAnkle > 0.4)
       ankleInsight = 'Remember to bend your knees but never past your feet :)';
-    if (s_hip < 0.4 && h_knee < 0.4 && k_ankle < 0.4)
+    if (sHip < 0.4 && hKnee < 0.4 && kAnkle < 0.4)
       fullInsight = 'All your metrics were near-perfect. Great job!';
     else {
       fullInsight = hipInsight + '\n' + kneeInsight + '\n' + ankleInsight;
     }
-    print("STUFF:" + s_hip.toString() + " " + h_knee.toString() + " " + k_ankle.toString());
+    print("STUFF:" +
+        sHip.toString() +
+        " " +
+        hKnee.toString() +
+        " " +
+        kAnkle.toString());
     return Column(
       children: <Widget>[
-        Text(s_hip.toString()),
-        Text(h_knee.toString()),
-        Text(k_ankle.toString()),
-        
+        Text(sHip.toString()),
+        Text(hKnee.toString()),
+        Text(kAnkle.toString()),
       ],
     );
     return Column(
@@ -216,7 +219,7 @@ class ResultsListState extends State<ResultsList> {
   }
 
   Widget buildCard(index) {
-// shoulder_hip_value,hip_knee_value,knee_ankle_value
+// shoulderHipValue,hipKneeValue,kneeAnkleValue
     final headerText = [
       'Shoulder-Hip',
       'Hip-Knee',
@@ -224,19 +227,19 @@ class ResultsListState extends State<ResultsList> {
       // 'Breadth',
       // 'Shoulder Inflection'
     ];
-    dynamic values = [s_hip, h_knee, k_ankle];
+    dynamic values = [sHip, hKnee, kAnkle];
     dynamic hipInsight = '',
         kneeInsight = '',
         ankleInsight = '',
         fullInsight = '';
-    if (s_hip > 0.4) {
+    if (sHip > 0.4) {
       hipInsight = 'Try and drop your shoulders down slightly more';
     }
-    if (h_knee > 0.4) kneeInsight = 'Stick your butt out!';
+    if (hKnee > 0.4) kneeInsight = 'Stick your butt out!';
 
-    if (k_ankle > 0.4)
+    if (kAnkle > 0.4)
       ankleInsight = 'Remember to bend your knees but never past your feet :)';
-    if (s_hip < 0.4 && h_knee < 0.4 && k_ankle < 0.4)
+    if (sHip < 0.4 && hKnee < 0.4 && kAnkle < 0.4)
       fullInsight = 'All your metrics were near-perfect. Great job!';
     else {
       fullInsight = hipInsight + '\n' + kneeInsight + '\n' + ankleInsight;
