@@ -1,7 +1,7 @@
 import 'package:camera/camera.dart';
 import 'package:tflite/tflite.dart';
 import 'dart:math';
-
+import '../utils/math.dart';
 //This class is designed to allow for analysis to be independent of workout, allowing for one "Route" to be
 //designed for recording and processing.
 abstract class Analyzer {
@@ -42,9 +42,13 @@ class SquatAnalyzer extends Analyzer {
     );
   }
 
+//TODO: add postprocess properly.
   @override
   Map<String, dynamic> postProcess(Map<String, dynamic> imageVals) {
-    // TODO: implement postProcess
+    dynamic shoulder_hip_value = tanh((70 - imageVals["min_theta_1"]) / 8.13);
+    dynamic hip_knee_value = tanh((12.9 - imageVals["min_theta_2"]) / 9.5);
+    dynamic knee_ankle_value = tanh((62 - imageVals["min_theta_3"]) / 6.8);
+
     return null;
   }
 
