@@ -45,11 +45,11 @@ class SquatAnalyzer extends Analyzer {
 //TODO: add postprocess properly.
   @override
   Map<String, dynamic> postProcess(Map<String, dynamic> imageVals) {
-    dynamic shoulder_hip_value = tanh((70 - imageVals["min_theta_1"]) / 8.13);
-    dynamic hip_knee_value = tanh((12.9 - imageVals["min_theta_2"]) / 9.5);
-    dynamic knee_ankle_value = tanh((62 - imageVals["min_theta_3"]) / 6.8);
-
-    return null;
+    Map<String, double> outputs = {};
+    outputs["shoulder_hip_value"] = tanh((70 - imageVals["min_theta_1"]) / 8.13);
+    outputs["hip_knee_value"] = tanh((12.9 - imageVals["min_theta_2"]) / 9.5);
+    outputs["knee_ankle_value"] = tanh((62 - imageVals["min_theta_3"]) / 6.8);
+    return outputs;
   }
 
   @override
