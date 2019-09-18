@@ -56,9 +56,9 @@ class _WorkoutAnalyzePageState extends State<WorkoutAnalyzePage> {
       context,
       MaterialPageRoute(
         builder: (context) => ResultsPage(
-            shoulder_hip_value: shoulder_hip_value,
-            hip_knee_value: hip_knee_value,
-            knee_ankle_value: knee_ankle_value,
+            shoulderHipValue: shoulder_hip_value,
+            hipKneeValue: hip_knee_value,
+            kneeAnkleValue: knee_ankle_value,
             title: widget.title),
       ),
     );
