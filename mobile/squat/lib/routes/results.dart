@@ -1,11 +1,6 @@
-import 'dart:ffi';
-import 'dart:io';
-import 'dart:math';
-// import 'dart:num';
 import 'package:flutter/material.dart';
 import 'package:flutter_rounded_progress_bar/flutter_icon_rounded_progress_bar.dart';
 import 'package:flutter_rounded_progress_bar/rounded_progress_bar_style.dart';
-import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:squat/main.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:squat/routes/workout_record.dart';
