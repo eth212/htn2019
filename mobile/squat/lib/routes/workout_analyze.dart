@@ -25,8 +25,8 @@ class _WorkoutAnalyzePageState extends State<WorkoutAnalyzePage> {
   bool side;
   List calculations;
 
-  double error_bias = 3.7377;
-  double error_slope = 0.10292;
+  double errorBias = 3.7377;
+  double errorSlope = 0.10292;
   double min_theta_1, min_theta_2, min_theta_3;
   double height;
   dynamic shoulder_hip_value;
