@@ -31,7 +31,6 @@ class ResultsPagestate extends State<ResultsPage> {
   dynamic kAnkle = 0;
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     sHip = widget.shoulderHipValue;
     hKnee = widget.hipKneeValue;
