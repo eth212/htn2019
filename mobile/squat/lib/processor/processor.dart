@@ -16,17 +16,20 @@ class Processor {
   bool _isInitialized;
   FlutterIsolate _isolate;
   ReceivePort _receivePort;
+  Function _alertComplete;
+  SendPort _sendPort;
   Queue<CameraImage> _unprocessed; //Handles data in an imageQueue
   CameraImage _processing;
   List<dynamic> _processed;
   int totalProcessed;
-  Processor(int workout) {
+  Processor(int workout, Function alertComplete) {
     _isolate = null;
     _workout = workout;
     _unprocessed = Queue();
     _processed = List();
     _processing = null;
     totalProcessed = 0;
+    _alertComplete();
   }
 
   int numUnprocessed() {
@@ -41,9 +44,27 @@ class Processor {
     return _unprocessed.isNotEmpty && _processing == null;
   }
 
-  void runProcessor() {
-    _receivePort = _start();
+  void start() {
+    //Ensure safe to start isolate.
+    if (_isInitialized || _isolate != null) {
+      Exception(["Start called on an already started Processor!"]);
+    }
+    _isInitialized = false;
+    _start();
+    _isInitialized = true;
     _process();
+    //process call is safe, so call just in case.
+  }
+
+  void feedMultiple(List<CameraImage> images) {
+    if (_isInitialized) {
+      _unprocessed.addAll(images);
+      if (isNotProcessing()) {
+        _process();
+      }
+    } else {
+      throw Exception("Called feed before Processor was initialized!");
+    }
   }
 
   void feed(CameraImage image) {
@@ -53,16 +74,51 @@ class Processor {
         _process();
       }
     } else {
-      throw Exception("Called Feed before Processor was initialized!");
+      throw Exception("Called feed before Processor was initialized!");
+    }
+  }
+
+  void kill() {
+    if (_isolate == null) {
+      throw Exception(["Processor isn't yet started!"]);
+    }
+    _isolate.kill();
+    _isolate = null;
+  }
+
+  void _start() {
+    if (_isolate != null) {
+      _loadModel();
+      _buildIsolate();
+    } else {
+      throw Exception(["Processor already started!"]);
+    }
+  }
+
+  void _loadModel() async {
+    await Tflite.loadModel(
+        model: "assets/posenet_mv1_075_float_from_checkpoints.tflite");
+  }
+
+  void _buildIsolate() async {
+    ReceivePort receivePort = ReceivePort();
+    _isolate =
+        await FlutterIsolate.spawn(processPoseFromImage, receivePort.sendPort);
+    //Get the port to send data to isolate
+    _sendPort = await receivePort.first;
+    //Give isolate initial workout data for setup
+    if (await sendReceive(_sendPort, _workout)) {
+      _receivePort = receivePort;
+    } else {
+      throw ("Initial Communication with isolate Failed!");
     }
   }
 
   void _process() async {
     while (_unprocessed.isNotEmpty) {
       _processing = _unprocessed.removeFirst();
-      var sendPort = await _receivePort.first;
       var msg = await sendReceive(
-        sendPort,
+        _sendPort,
         [
           _processing.planes.map((plane) {
             return plane.bytes;
@@ -76,37 +132,9 @@ class Processor {
       totalProcessed += 1;
     }
   }
-
-  ReceivePort _start() {
-    if (_isolate != null) {
-      _loadModel();
-      return _buildIsolate();
-    } else {
-      throw Exception(["Processor already started!"]);
-    }
-  }
-
-  void _loadModel() async {
-    await Tflite.loadModel(
-        model: "assets/posenet_mv1_075_float_from_checkpoints.tflite");
-  }
-
-  dynamic _buildIsolate() async {
-    ReceivePort receivePort = ReceivePort();
-    _isolate =
-        await FlutterIsolate.spawn(processPoseFromImage, receivePort.sendPort);
-    return receivePort;
-  }
-
-  void kill() {
-    if (_isolate == null) {
-      throw Exception(["Processor isn't yet started!"]);
-    } else
-      _isolate.kill();
-  }
 }
 
-//Spawns separate isolate
+//Entrypoint for slave isolate, will process however it is told.
 void processPoseFromImage(dynamic sendPort) async {
   ReceivePort port = new ReceivePort();
   // Notify any other isolates what port this isolate listens to.

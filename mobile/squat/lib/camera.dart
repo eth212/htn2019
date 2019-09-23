@@ -8,10 +8,10 @@ const POSENET = 0;
 class Camera extends StatefulWidget {
   final ImageCallback addImage;
   final int model;
-  final bool isDetecting;
+  final bool isRecording;
   final List<CameraDescription> cameras;
 
-  Camera(this.cameras, this.model, this.addImage, this.isDetecting);
+  Camera(this.cameras, this.model, this.addImage, this.isRecording);
 
   @override
   _CameraState createState() => new _CameraState();
@@ -37,9 +37,8 @@ class _CameraState extends State<Camera> {
           return;
         }
         setState(() {});
-
         controller.startImageStream((CameraImage img) {
-          if (widget.isDetecting) {
+          if (widget.isRecording) {
             widget.addImage(img);
           }
         });

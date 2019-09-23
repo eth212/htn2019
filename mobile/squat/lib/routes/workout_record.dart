@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:squat/analyzers/factory.dart';
 import 'package:squat/main.dart';
 import 'package:camera/camera.dart';
 import 'package:squat/camera.dart';
 import 'package:squat/routes/workout_analyze.dart';
+import 'package:squat/analyzers/analyzer.dart';
+import 'package:squat/processor/processor.dart';
 
 class WorkoutRecordPage extends StatefulWidget {
-  WorkoutRecordPage({Key key, this.title, this.side}) : super(key: key);
+  WorkoutRecordPage({Key key, this.title, this.side, this.initialWorkout})
+      : super(key: key);
   final String title;
   final bool side;
+  final int initialWorkout;
   @override
   _WorkoutRecordPageState createState() => _WorkoutRecordPageState();
 }
@@ -15,18 +20,37 @@ class WorkoutRecordPage extends StatefulWidget {
 class _WorkoutRecordPageState extends State<WorkoutRecordPage> {
   bool isRecording = false;
   String message = "Start";
+  int processed;
+  int workout;
   List<CameraImage> collectedImages;
-
+  Analyzer analyzer;
+  Processor processor;
+  //ImageProcessor processor;
   List<CameraDescription> cameras;
   @override
   initState() {
+    workout = widget.initialWorkout;
     super.initState();
     cameras = null;
-    collectedImages = List();
+    setAnalyzer(widget.initialWorkout);
     getCameras();
   }
 
-  Future<Null> getCameras() async {
+  setAnalyzer(int workout) {
+    processed = 0;
+    collectedImages = List();
+    analyzer = AnalyzerFactory.getAnalyzer(workout);
+  }
+
+  void alertComplete() {
+    if (!isRecording) {
+      processor.kill();
+      //Todo: Add rest of processing here, along with a setstate to
+      //the results route.
+    }
+  }
+
+  void getCameras() async {
     try {
       dynamic camerasNow = await availableCameras();
       setState(() {
@@ -75,7 +99,8 @@ class _WorkoutRecordPageState extends State<WorkoutRecordPage> {
                                   fontSize: 15)),
                           onPressed: interact,
                         ),
-                      )                    ],
+                      )
+                    ],
                   ),
                 )
               ],
@@ -84,16 +109,22 @@ class _WorkoutRecordPageState extends State<WorkoutRecordPage> {
   }
 
   void interact() {
-    setState(() {
-      if (isRecording) {
+    if (isRecording) {
+      processor.kill();
+      setState(() {
         isRecording = false;
         message = "Done";
-        toAnalysis();
-      } else {
+        //toAnalysis();
+      });
+    } else {
+      // TODO: Starting indicator, maybe reorganize startup as much as possible?
+      processor = Processor(workout, alertComplete);
+      processor.start();
+      setState(() {
         isRecording = true;
         message = "Stop";
-      }
-    });
+      });
+    }
   }
 
   Widget getInteractionWidget() {
@@ -122,6 +153,7 @@ class _WorkoutRecordPageState extends State<WorkoutRecordPage> {
 
   //Callback for camera or reading from file, break file into images.
   addImage(CameraImage img) {
-    collectedImages.add(img);
+    processor.feed(img);
+    //collectedImages.add(img);
   }
 }
