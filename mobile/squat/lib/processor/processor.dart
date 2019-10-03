@@ -163,6 +163,7 @@ void processPoseFromImage(dynamic sendPort) async {
       SendPort replyTo = msg[1];
       analyzer = AnalyzerFactory.getAnalyzer(workout);
       replyTo.send(true);
+      hasInitialized = true;
     }
   }
 }
