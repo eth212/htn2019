@@ -120,6 +120,8 @@ class Processor {
   void _process() async {
     while (_unprocessed.isNotEmpty) {
       _processing = _unprocessed.removeFirst();
+      int currentImage = totalFed - totalProcessed;
+      print("Processing image: " + currentImage.toString());
       var msg = await sendReceive(
         _sendPort,
         [
@@ -130,6 +132,7 @@ class Processor {
           _processing.width
         ],
       );
+      print("Processed image: "+  currentImage.toString());
       _processed.add([msg, _processing]);
       _processing = null;
       totalProcessed += 1;
