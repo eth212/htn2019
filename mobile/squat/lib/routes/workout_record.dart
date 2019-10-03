@@ -19,13 +19,13 @@ class WorkoutRecordPage extends StatefulWidget {
 
 class _WorkoutRecordPageState extends State<WorkoutRecordPage> {
   bool isRecording = false;
+  int interactCounter = 0;
   String message = "Start";
   int processed;
   int workout;
   List<CameraImage> collectedImages;
   Analyzer analyzer;
   Processor processor;
-  //ImageProcessor processor;
   List<CameraDescription> cameras;
   @override
   initState() {
@@ -45,8 +45,6 @@ class _WorkoutRecordPageState extends State<WorkoutRecordPage> {
   void alertComplete() {
     if (!isRecording) {
       processor.kill();
-      //Todo: Add rest of processing here, along with a setstate to
-      //the results route.
     }
   }
 
@@ -91,7 +89,6 @@ class _WorkoutRecordPageState extends State<WorkoutRecordPage> {
                         margin: EdgeInsets.all(8),
                         child: FloatingActionButton.extended(
                           elevation: 0,
-                          // icon: const Icon(Icons.add),
                           label: Text(message + " Workout",
                               style: TextStyle(
                                   color: Colors.white,
@@ -109,22 +106,28 @@ class _WorkoutRecordPageState extends State<WorkoutRecordPage> {
   }
 
   void interact() {
+    interactCounter += 1;
+    print("Number of interactions: " + interactCounter.toString());
     if (isRecording) {
       processor.kill();
       setState(() {
         isRecording = false;
         message = "Done";
-        //toAnalysis();
       });
     } else {
-      // TODO: Starting indicator, maybe reorganize startup as much as possible?
+      buildProcessor();
+    }
+  }
+
+  void buildProcessor() async {
+    if (processor == null) {
       processor = Processor(workout, alertComplete);
       processor.start();
       setState(() {
         isRecording = true;
         message = "Stop";
       });
-    }
+    } else {}
   }
 
   Widget getInteractionWidget() {

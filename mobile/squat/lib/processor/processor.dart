@@ -15,12 +15,12 @@ class Processor {
   int _workout;
   bool _isInitialized;
   FlutterIsolate _isolate;
-  ReceivePort _receivePort;
   Function _alertComplete;
   SendPort _sendPort;
   Queue<CameraImage> _unprocessed; //Handles data in an imageQueue
   CameraImage _processing;
   List<dynamic> _processed;
+  int totalFed;
   int totalProcessed;
   Processor(int workout, Function alertComplete) {
     _isolate = null;
@@ -28,8 +28,10 @@ class Processor {
     _unprocessed = Queue();
     _processed = List();
     _processing = null;
+    _isInitialized = false;
+    totalFed = 0;
     totalProcessed = 0;
-    _alertComplete();
+    _alertComplete = alertComplete;
   }
 
   int numUnprocessed() {
@@ -49,15 +51,17 @@ class Processor {
     if (_isInitialized || _isolate != null) {
       Exception(["Start called on an already started Processor!"]);
     }
-    _isInitialized = false;
     _start();
     _isInitialized = true;
-    _process();
+    if (totalFed != totalProcessed) {
+      _process();
+    }
     //process call is safe, so call just in case.
   }
 
   void feedMultiple(List<CameraImage> images) {
     if (_isInitialized) {
+      totalFed += images.length;
       _unprocessed.addAll(images);
       if (isNotProcessing()) {
         _process();
@@ -69,6 +73,7 @@ class Processor {
 
   void feed(CameraImage image) {
     if (_isInitialized) {
+      totalFed += 1;
       _unprocessed.add(image);
       if (isNotProcessing()) {
         _process();
@@ -87,7 +92,7 @@ class Processor {
   }
 
   void _start() {
-    if (_isolate != null) {
+    if (_isolate == null) {
       _loadModel();
       _buildIsolate();
     } else {
@@ -107,10 +112,8 @@ class Processor {
     //Get the port to send data to isolate
     _sendPort = await receivePort.first;
     //Give isolate initial workout data for setup
-    if (await sendReceive(_sendPort, _workout)) {
-      _receivePort = receivePort;
-    } else {
-      throw ("Initial Communication with isolate Failed!");
+    if (!await sendReceive(_sendPort, _workout)) {
+      throw Exception("Initial Communication with isolate Failed!");
     }
   }
 
@@ -131,6 +134,7 @@ class Processor {
       _processing = null;
       totalProcessed += 1;
     }
+    _alertComplete();
   }
 }
 
