@@ -16,7 +16,7 @@ class Processor {
   bool _isInitialized;
   FlutterIsolate _isolate;
   Function _alertComplete;
-  SendPort _sendPort;
+  var _sendPort;
   Queue<CameraImage> _unprocessed; //Handles data in an imageQueue
   CameraImage _processing;
   List<dynamic> _processed;
@@ -118,7 +118,8 @@ class Processor {
   }
 
   void _process() async {
-    while (_unprocessed.isNotEmpty) {
+    if(_sendPort == null) throw Exception();
+    while (_unprocessed.isNotEmpty && _sendPort != null) {
       _processing = _unprocessed.removeFirst();
       int currentImage = totalFed - totalProcessed;
       print("Processing image: " + currentImage.toString());
