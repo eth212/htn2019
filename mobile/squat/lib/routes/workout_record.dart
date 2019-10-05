@@ -9,7 +9,7 @@ import 'package:squat/processor/processor.dart';
 import 'package:progress_indicators/progress_indicators.dart';
 
 class WorkoutRecordPage extends StatefulWidget {
-  WorkoutRecordPage({Key key, this.title, this.side, this.initialWorkout})
+  WorkoutRecordPage({Key key,@required this.title, @required this.side, @required this.initialWorkout })
       : super(key: key);
   final String title;
   final bool side;
@@ -21,7 +21,6 @@ class WorkoutRecordPage extends StatefulWidget {
 class _WorkoutRecordPageState extends State<WorkoutRecordPage> {
   int interactCounter = 0;
   String message = "Start";
-  int processed;
   int workout;
   int state;
 
@@ -29,6 +28,7 @@ class _WorkoutRecordPageState extends State<WorkoutRecordPage> {
   static const int RECORDING = 1;
   static const int POSTRECORDING = 2;
   List<CameraImage> collectedImages;
+  List<dynamic> preProcessOutput;
   Analyzer analyzer;
   Processor processor;
   List<CameraDescription> cameras;
@@ -43,13 +43,14 @@ class _WorkoutRecordPageState extends State<WorkoutRecordPage> {
   }
 
   setAnalyzer(int workout) {
-    processed = 0;
     collectedImages = List();
     analyzer = AnalyzerFactory.getAnalyzer(workout);
   }
 
   void alertComplete() {
     if (state == POSTRECORDING) {
+      collectedImages = processor.getUnprocessed();
+
       processor.kill();
     }
   }
@@ -104,7 +105,7 @@ class _WorkoutRecordPageState extends State<WorkoutRecordPage> {
                                 onPressed: interact,
                               )
                             : JumpingDotsProgressIndicator(
-                                fontSize: 20.0,
+                                fontSize: 40.0,
                               ),
                       )
                     ],
@@ -166,6 +167,5 @@ class _WorkoutRecordPageState extends State<WorkoutRecordPage> {
   //Callback for camera or reading from file, break file into images.
   addImage(CameraImage img) {
     processor.feed(img);
-    //collectedImages.add(img);
   }
 }

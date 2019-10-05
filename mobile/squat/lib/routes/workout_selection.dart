@@ -117,19 +117,6 @@ class WorkoutListState extends State<WorkoutList> {
   }
 
   Widget buildList() {
-    final imageLinks = [
-      'assets/squatRecognition.png',
-      'assets/splash.png',
-      'assets/squat.png'
-    ];
-    final headerText = ['Squats', 'Pullups', 'Running', 'Pushups'];
-    final contentText = [
-      'Time for your glutes.',
-      'You think you got form?',
-      'Hard to master.',
-      'Backtime.'
-    ];
-
     return new Padding(
       padding: EdgeInsets.all(10),
       child: GridView.count(

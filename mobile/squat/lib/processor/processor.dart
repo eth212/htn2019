@@ -82,7 +82,12 @@ class Processor {
       throw Exception("Called feed before Processor was initialized!");
     }
   }
-
+  dynamic getProcessed(){
+    return _processed;
+  }
+  dynamic getUnprocessed(){
+    return _unprocessed;
+  }
   void kill() {
     if (_isolate == null) {
       throw Exception(["Processor isn't yet started!"]);
