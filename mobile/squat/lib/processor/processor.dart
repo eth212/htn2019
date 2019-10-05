@@ -118,8 +118,8 @@ class Processor {
   }
 
   void _process() async {
-    if(_sendPort == null) throw Exception();
-    while (_unprocessed.isNotEmpty && _sendPort != null) {
+    if (_sendPort == null) throw Exception();
+    while(_unprocessed.isNotEmpty && _sendPort != null) {
       _processing = _unprocessed.removeFirst();
       int currentImage = totalFed - totalProcessed;
       print("Processing image: " + currentImage.toString());
@@ -133,7 +133,7 @@ class Processor {
           _processing.width
         ],
       );
-      print("Processed image: "+  currentImage.toString());
+      print("Processed image: " + currentImage.toString());
       _processed.add([msg, _processing]);
       _processing = null;
       totalProcessed += 1;
@@ -146,6 +146,9 @@ class Processor {
 void processPoseFromImage(dynamic sendPort) async {
   ReceivePort port = new ReceivePort();
   // Notify any other isolates what port this isolate listens to.
+  
+  await Tflite.loadModel(
+      model: "assets/posenet_mv1_075_float_from_checkpoints.tflite");
   sendPort.send(port.sendPort);
   Analyzer analyzer;
   int workout = -1;
@@ -155,7 +158,7 @@ void processPoseFromImage(dynamic sendPort) async {
       if (msg[0] != null) {
         var img = msg[0];
         SendPort replyTo = msg[1];
-        dynamic formattedData = analyzer.imageProcess(img);
+        dynamic formattedData = await analyzer.imageProcess(img);
         replyTo.send(formattedData);
       } else
         port.close();

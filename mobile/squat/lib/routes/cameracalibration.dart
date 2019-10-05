@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:squat/main.dart';
 import 'package:squat/routes/workout_record.dart';
-
+import 'package:squat/utils/workouts.dart';
 class CameraCalibration extends StatefulWidget {
   @override
   CameraCalibrationState createState() => CameraCalibrationState();
@@ -142,6 +142,7 @@ class CalibrationDecisionState extends State<CalibrationDecision> {
                               builder: (context) => WorkoutRecordPage(
                                 title: "ProForm",
                                 side: true,
+                                initialWorkout: Workout.SQUAT,
                               ),
                             ),
                           );
@@ -177,6 +178,7 @@ class CalibrationDecisionState extends State<CalibrationDecision> {
                               builder: (context) => WorkoutRecordPage(
                                 title: "ProForm",
                                 side: false,
+                                initialWorkout: Workout.SQUAT,
                               ),
                             ),
                           );

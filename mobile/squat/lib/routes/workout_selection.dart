@@ -176,10 +176,6 @@ class WorkoutListState extends State<WorkoutList> {
               ),
             ),
           ),
-          // Image.file(File(    imageLinks[index]),
-          //    // 'https://placeimg.com/640/480/any'
-          //    fit: BoxFit.fill,
-          //  ),
           Row(children: [
             Padding(
               padding: EdgeInsets.only(left: 10, top: 10, right: 10, bottom: 5),

@@ -34,8 +34,8 @@ class SquatAnalyzer extends Analyzer {
   }
 
   @override
-  Future<List<dynamic>> imageProcess(List<dynamic> image) {
-    return Tflite.runPoseNetOnFrame(
+  Future<List<dynamic>> imageProcess(List<dynamic> image) async{
+    return await Tflite.runPoseNetOnFrame(
       bytesList: image[0],
       imageHeight: image[1],
       imageWidth: image[2],

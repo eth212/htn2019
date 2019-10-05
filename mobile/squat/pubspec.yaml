@@ -30,6 +30,8 @@ dependencies:
   firebase_auth:
   cloud_firestore:
   flutter_isolate: ^1.0.0+9
+  progress_indicators: ^0.1.4
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

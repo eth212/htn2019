@@ -8,7 +8,7 @@ class AnalyzerFactory{
         return SquatAnalyzer();
         break;
       default:
-        return null;
+        throw Exception("Tried to create an Analyzer using an invalid key.");
     }
   }
 }

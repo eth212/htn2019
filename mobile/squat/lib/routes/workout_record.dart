@@ -6,6 +6,7 @@ import 'package:squat/camera.dart';
 import 'package:squat/routes/workout_analyze.dart';
 import 'package:squat/analyzers/analyzer.dart';
 import 'package:squat/processor/processor.dart';
+import 'package:progress_indicators/progress_indicators.dart';
 
 class WorkoutRecordPage extends StatefulWidget {
   WorkoutRecordPage({Key key, this.title, this.side, this.initialWorkout})
@@ -18,21 +19,26 @@ class WorkoutRecordPage extends StatefulWidget {
 }
 
 class _WorkoutRecordPageState extends State<WorkoutRecordPage> {
-  bool isRecording = false;
   int interactCounter = 0;
   String message = "Start";
   int processed;
   int workout;
+  int state;
+
+  static const int PRERECORDING = 0;
+  static const int RECORDING = 1;
+  static const int POSTRECORDING = 2;
   List<CameraImage> collectedImages;
   Analyzer analyzer;
   Processor processor;
   List<CameraDescription> cameras;
   @override
   initState() {
-    workout = widget.initialWorkout;
     super.initState();
+    workout = widget.initialWorkout;
+    state = 0;
     cameras = null;
-    setAnalyzer(widget.initialWorkout);
+    setAnalyzer(workout);
     getCameras();
   }
 
@@ -43,7 +49,7 @@ class _WorkoutRecordPageState extends State<WorkoutRecordPage> {
   }
 
   void alertComplete() {
-    if (!isRecording) {
+    if (state == POSTRECORDING) {
       processor.kill();
     }
   }
@@ -80,22 +86,26 @@ class _WorkoutRecordPageState extends State<WorkoutRecordPage> {
           ? getInteractionWidget()
           : Stack(
               children: <Widget>[
-                Camera(cameras, POSENET, addImage, isRecording),
+                Camera(cameras, POSENET, addImage, state == RECORDING),
                 Center(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: <Widget>[
                       Container(
                         margin: EdgeInsets.all(8),
-                        child: FloatingActionButton.extended(
-                          elevation: 0,
-                          label: Text(message + " Workout",
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 15)),
-                          onPressed: interact,
-                        ),
+                        child: (state == PRERECORDING || state == RECORDING)
+                            ? FloatingActionButton.extended(
+                                elevation: 0,
+                                label: Text(message + " Workout",
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 15)),
+                                onPressed: interact,
+                              )
+                            : JumpingDotsProgressIndicator(
+                                fontSize: 20.0,
+                              ),
                       )
                     ],
                   ),
@@ -108,14 +118,17 @@ class _WorkoutRecordPageState extends State<WorkoutRecordPage> {
   void interact() {
     interactCounter += 1;
     print("Number of interactions: " + interactCounter.toString());
-    if (isRecording) {
-      processor.kill();
+    if (state == RECORDING) {
       setState(() {
-        isRecording = false;
+        state = POSTRECORDING;
         message = "Done";
       });
-    } else {
+    } else if (state == PRERECORDING) {
       buildProcessor();
+      setState(() {
+        state = RECORDING;
+        message = "Stop";
+      });
     }
   }
 
@@ -123,10 +136,6 @@ class _WorkoutRecordPageState extends State<WorkoutRecordPage> {
     if (processor == null) {
       processor = Processor(workout, alertComplete);
       processor.start();
-      setState(() {
-        isRecording = true;
-        message = "Stop";
-      });
     } else {}
   }
 
