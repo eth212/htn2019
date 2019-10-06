@@ -9,7 +9,11 @@ import 'package:squat/processor/processor.dart';
 import 'package:progress_indicators/progress_indicators.dart';
 
 class WorkoutRecordPage extends StatefulWidget {
-  WorkoutRecordPage({Key key,@required this.title, @required this.side, @required this.initialWorkout })
+  WorkoutRecordPage(
+      {Key key,
+      @required this.title,
+      @required this.side,
+      @required this.initialWorkout})
       : super(key: key);
   final String title;
   final bool side;
@@ -27,11 +31,15 @@ class _WorkoutRecordPageState extends State<WorkoutRecordPage> {
   static const int PRERECORDING = 0;
   static const int RECORDING = 1;
   static const int POSTRECORDING = 2;
+  static const int IMAGE_PROCESSING = 3;
+  static const int POSE_PROCESSING = 4;
+  static const int KIN_PROCESSING = 5;
   List<CameraImage> collectedImages;
-  List<dynamic> preProcessOutput;
+  List<dynamic> poseData;
   Analyzer analyzer;
   Processor processor;
   List<CameraDescription> cameras;
+  Widget overlay;
   @override
   initState() {
     super.initState();
@@ -50,8 +58,9 @@ class _WorkoutRecordPageState extends State<WorkoutRecordPage> {
   void alertComplete() {
     if (state == POSTRECORDING) {
       collectedImages = processor.getUnprocessed();
-
+      poseData = processor.getProcessed();
       processor.kill();
+      setState(() {});
     }
   }
 
@@ -68,6 +77,29 @@ class _WorkoutRecordPageState extends State<WorkoutRecordPage> {
 
   @override
   Widget build(BuildContext context) {
+    Widget overlay;
+    if (state == PRERECORDING || state == RECORDING) {
+      overlay = FloatingActionButton.extended(
+        elevation: 0,
+        label: Text(message + " Workout",
+            style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.w500,
+                fontSize: 15)),
+        onPressed: interact,
+      );
+    } else {
+      overlay =
+          Column(mainAxisAlignment: MainAxisAlignment.end, children: <Widget>[
+        Card(),
+        Card(
+          margin: EdgeInsets.all(8),
+          child: JumpingDotsProgressIndicator(
+            fontSize: 80.0,
+          ),
+        ),
+      ]);
+    }
     return Scaffold(
       backgroundColor: Color(0xff272727),
       appBar: PreferredSize(
@@ -83,34 +115,12 @@ class _WorkoutRecordPageState extends State<WorkoutRecordPage> {
             ),
             backgroundColor: SquatApp().squatPrimary),
       ),
-      body: cameras == null
-          ? getInteractionWidget()
+      body: cameras == null && state != PRERECORDING && state != POSTRECORDING
+          ? noCameraWidget()
           : Stack(
               children: <Widget>[
                 Camera(cameras, POSENET, addImage, state == RECORDING),
-                Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: <Widget>[
-                      Container(
-                        margin: EdgeInsets.all(8),
-                        child: (state == PRERECORDING || state == RECORDING)
-                            ? FloatingActionButton.extended(
-                                elevation: 0,
-                                label: Text(message + " Workout",
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 15)),
-                                onPressed: interact,
-                              )
-                            : JumpingDotsProgressIndicator(
-                                fontSize: 40.0,
-                              ),
-                      )
-                    ],
-                  ),
-                )
+                overlay,
               ],
             ),
     );
@@ -140,7 +150,7 @@ class _WorkoutRecordPageState extends State<WorkoutRecordPage> {
     } else {}
   }
 
-  Widget getInteractionWidget() {
+  Widget noCameraWidget() {
     return Container(
       decoration: BoxDecoration(
         gradient: LinearGradient(
@@ -149,7 +159,7 @@ class _WorkoutRecordPageState extends State<WorkoutRecordPage> {
             colors: [Colors.white60, const Color(0xff6A8ADB)]),
       ),
       child: Center(
-        child: Text("No Camera Found"),
+        child: Text("No Camera Available"),
       ),
     );
   }

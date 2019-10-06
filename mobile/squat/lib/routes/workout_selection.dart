@@ -127,7 +127,8 @@ class WorkoutListState extends State<WorkoutList> {
           imageLinks.length,
           (i) {
             print(i);
-            return buildCard(i);
+            return null;
+            // return buildCard(i);
           },
         ),
       ),
@@ -135,19 +136,6 @@ class WorkoutListState extends State<WorkoutList> {
   }
 
   Widget buildCard(index) {
-    final imageLinks = [
-      'assets/squatRecognition.JPG',
-      'assets/splash.png',
-      'assets/squat.png'
-    ];
-    final headerText = ['Squats', 'Pullups', 'Running', 'Wow'];
-    final contentText = [
-      'Time for your glutes.',
-      'You think you got form?',
-      'Great',
-      'New apartment!'
-    ];
-
     return new Center(
       child: Card(
         semanticContainer: true,

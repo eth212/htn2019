@@ -4,6 +4,7 @@ import 'package:flutter_rounded_progress_bar/rounded_progress_bar_style.dart';
 import 'package:squat/main.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:squat/routes/workout_record.dart';
+import 'package:squat/routes/workout_selection.dart';
 
 class ResultsPage extends StatefulWidget {
   ResultsPage(
@@ -83,7 +84,7 @@ class ResultsPagestate extends State<ResultsPage> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => WorkoutRecordPage(),
+        builder: (context) => WorkoutSelectionPage(),
       ),
     );
   }
