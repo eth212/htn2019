@@ -4,8 +4,7 @@ import '../utils/authenticator.dart';
 import 'workout_selection.dart';
 
 
-
-class GoogleLogInPage extends StatelessWidget{
+class GoogleLogInPage extends StatelessWidget{ //debugging page that displays info for google logging in and out
   @override
   Widget build(BuildContext context){
     
@@ -25,6 +24,7 @@ class GoogleLogInPage extends StatelessWidget{
             child:Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
+                LogoutButton(),
                 MainLoginButton(),
                 UserProfile()
                 ],
@@ -69,7 +69,7 @@ class UserProfileState extends State<UserProfile> {
   }
 
 
-  class LoginButton extends StatelessWidget {
+  class LogoutButton extends StatelessWidget {
 
     @override 
     Widget build(BuildContext context) {
@@ -78,19 +78,22 @@ class UserProfileState extends State<UserProfile> {
         builder: (context, snapshot){
           if(snapshot.hasData){
             return MaterialButton(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(2.5))),
+                  elevation: 5.0,
+                  minWidth: 164.0,
+                  height: 50,
+                  color: Color(0xff6A8ADB),
+                  child: new Text('Sign out',
+                      style: new TextStyle(
+                          fontSize: 14.0,
+                          color: Colors.white,
+                          fontWeight: FontWeight.w400)),
                   onPressed: () => authService.signOut(),
-                  color: Colors.red,
-                  textColor: Colors.black,
-                  child: Text('logout'),
                 );
           }
-          else {
-            return  MaterialButton
-                (onPressed: () => authService.signInWithGoogle(),
-                  color: Colors.blue,
-                  textColor: Colors.white,
-                  child: Text('Sign in With Google'),
-                );
+          else{// hide if user is not signed in yet
+            return new Container();
           }
         }
       );

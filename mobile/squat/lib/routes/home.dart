@@ -62,27 +62,11 @@ class _HomePageState extends State<HomePage> {
               ),
               Padding(
                 padding: EdgeInsets.fromLTRB(0, 20, 0, 40),
-                child: MaterialButton(
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(2.5))),
-                  elevation: 5.0,
-                  minWidth: 164.0,
-                  height: 50,
-                  color: Color(0xff6A8ADB),
-                  child: new Text('Login',
-                      style: new TextStyle(
-                          fontSize: 14.0,
-                          color: Colors.white,
-                          fontWeight: FontWeight.w400)),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => GoogleLogInPage()
-                      ),
-                    );
-                  },
-                ),
+                child: MainLoginButton(),
+              ),
+               Padding(
+                padding: EdgeInsets.fromLTRB(0, 20, 0, 40),
+                child: LogoutButton(),
               ),
             ],
           )),
