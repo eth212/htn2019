@@ -3,14 +3,14 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:squat/main.dart';
 
 
-class Login extends StatefulWidget {
+class LoginPage extends StatefulWidget {
 
   @override
   _LoginScreenState createState() => _LoginScreenState();
 
 }
 
-class _LoginScreenState extends State<Login>{
+class _LoginScreenState extends State<LoginPage>{
   String _email, _password;
 
   @override

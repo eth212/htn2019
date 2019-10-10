@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:squat/routes/googleLogin.dart';
+import 'login.dart';
 import 'workout_selection.dart';
 
 class HomePage extends StatefulWidget {
@@ -77,9 +79,7 @@ class _HomePageState extends State<HomePage> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => WorkoutSelectionPage(
-                          title: "ProForm",
-                        ),
+                        builder: (context) => GoogleLogInPage()
                       ),
                     );
                   },
