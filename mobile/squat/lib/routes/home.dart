@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:squat/routes/googleLogin.dart';
-import 'login.dart';
+import 'package:squat/routes/googleLoginDebugging.dart';
 import 'workout_selection.dart';
 
 class HomePage extends StatefulWidget {

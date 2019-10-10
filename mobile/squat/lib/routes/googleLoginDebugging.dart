@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:squat/main.dart';
 import '../utils/authenticator.dart';
+import 'workout_selection.dart';
+
 
 
 class GoogleLogInPage extends StatelessWidget{
@@ -23,7 +25,7 @@ class GoogleLogInPage extends StatelessWidget{
             child:Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                LoginButton(),
+                MainLoginButton(),
                 UserProfile()
                 ],
             ),
@@ -94,3 +96,55 @@ class UserProfileState extends State<UserProfile> {
       );
     }
   }
+
+  class MainLoginButton extends StatelessWidget {
+
+  @override 
+  Widget build(BuildContext context) {
+    return StreamBuilder(
+      stream: authService.user, 
+      builder: (context, snapshot){
+        if(!snapshot.hasData){
+          return MaterialButton(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(2.5))),
+                  elevation: 5.0,
+                  minWidth: 164.0,
+                  height: 50,
+                  color: Color(0xff6A8ADB),
+                  child: new Text('Login With Google',
+                      style: new TextStyle(
+                          fontSize: 14.0,
+                          color: Colors.white,
+                          fontWeight: FontWeight.w400)),
+                  onPressed: () => authService.signInWithGoogle(),
+                    );
+                  
+        }
+        else {
+          return  MaterialButton
+              (
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(2.5))),
+                  elevation: 5.0,
+                  minWidth: 164.0,
+                  height: 50,
+                  color: Color(0xff6A8ADB),
+                  child: new Text('Press here to get YOKED',
+                      style: new TextStyle(
+                          fontSize: 14.0,
+                          color: Colors.white,
+                          fontWeight: FontWeight.w400)),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => WorkoutSelectionPage()
+                      ),
+                    );
+                  },);
+        }
+      }
+    );
+  }
+}
